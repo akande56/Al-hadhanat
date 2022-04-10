@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load myfilter %}
+{% block content %}
+<div class="container mt-90 ">
+
+  <h3 class="bg-theme-colored p-5  text-white text-center">Student Application Form </h3>
+  <div class="">
+    <form method="post" id="studentForm" data-lga-url="{% url 'ajax_load_lga' %}" novalidate
+      action="{% url 'admit_student' %}" class="needs-validation mb-0 bg-silver-light" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h3 class="text-success">Bio Data</h3>
+
+      <div class="form-row">
+        <div class="form-group  col-md-3  mt-5">
+          <p>{{ form.firstname.label_tag }}</p>
+          {{form.firstname|addclass:'form-control'}}
+          <span class="text-danger">{{ form.firstname.errors }}</span>
+        </div>
+        <div class="form-group col-md-3  mt-5">
+          <p>{{ form.surname.label_tag }}</p>
+          {{form.surname|addclass:'form-control'}}
+          <span class="text-danger"> {{ form.surname.errors }}</span>
+        </div>
+        <div class="form-group col-md-3 mt-5">
+          <p>{{ form.lastname.label_tag }}</p>
+          {{ form.lastname|addclass:'form-control' }}
+          <span class="text-danger">{{ form.lastname.errors }}</span>
+        </div>
+        <div class="form-group col-md-3 mt-5 ">
+          <p>{{ form.date_of_birth.label_tag }}</p>
+          {{ form.date_of_birth|addclass:'form-control' }}
+          <span class="text-danger">{{ form.date_of_birth.errors }}</span>
+        </div>
+
+      </div>
+
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <p> {{ form.sex.label_tag }}</p>
+          {{ form.sex|addclass:'form-control' }}
+          <span class="text-danger">{{ form.sex.errors }}</span>
+
+        </div>
+        <div class="form-group col-md-4">
+          <p>{{ form.tribe.label_tag }}</p>
+          {{ form.tribe|addclass:'form-control' }}
+          <span class="text-danger"> {{ form.tribe.errors }}</span>
+        </div>
+
+        <div class="form-group col-md-4">
+          <p>{{form.state.label_tag}}</p>
+          {{form.state|addclass:'form-control'}}
+          <span class="text-danger">{{form.state.errors}}</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <p>{{ form.lga.label_tag }}</p>
+          {{ form.lga|addclass:'form-control' }}
+          <span class="text-danger">{{ form.lga.errors }}</span>
+        </div>
+        <div class="form-group col-md-6">
+          <p>{{form.nationality.label_tag}}</p>
+          {{form.nationality|addclass:'form-control'}}
+          <span class="text-danger">{{form.nationality.errors}}</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <p>{{form.address.label_tag}}</p>
+          {{form.address|addclass:'form-control'}}
+          <span class="text-danger">{{form.address.errors}}</span>
+        </div>
+        <div class="form-group col-md-4">
+          <p>{{form.previous_school.label_tag}}</p>
+          {{form.previous_school|addclass:'form-control'}}
+          <span class="text-danger">{{form.prev_school.errors}}</span>
+        </div>
+      </div>
+
+
+      <h3 class="mb-5 mt-5 text-success">Guardian</h3>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <p>{{ form.guardian_name.label_tag }}</p>
+          {{ form.guardian_name|addclass:'form-control' }}
+          <span class="text-danger"> {{form.guardian_name.errors}} </span>
+
+        </div>
+        <div class="form-group col-md-6">
+          <p>{{ form.phone.label_tag }}</p>
+          {{ form.phone|addclass:'form-control' }}
+          <span class="text-danger"> {{form.phone.errors}} </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6 ">
+          <p>{{ form.email.label_tag }}</p>
+          {{ form.email|addclass:'form-control' }}
+          <span class="text-danger">{{form.email.errors}}</span>
+        </div>
+      </div>
+
+      <h3 class="mb-5 mt-5 text-success">Medical</h3>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <p>{{ form.physical_disability.label_tag }}</p>
+          {{ form.physical_disability|addclass:'form-control' }}
+          <span class="text-danger">{{form.physical_disability.errors}}</span>
+        </div>
+        <div class="form-group col-md-6">
+          <p>{{ form.allergy.label_tag }}</p>
+          {{ form.allergy|addclass:'form-control' }}
+          <span class="text-danger">{{form.allergy.errors}}</span>
+        </div>
+      </div>
+
+      <h3 class="mb-5 mt-5 text-success">Primary Section</h3>
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <p>{{ form.pp.label_tag }}</p>
+          {{ form.pp|addclass:'form-control' }}
+          <span class="text-danger">{{form.pp.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.nus1.label_tag }}</p>
+          {{ form.nus1|addclass:'form-control' }}
+          <span class="text-danger">{{form.nus1.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.nus2.label_tag }}</p>
+          {{ form.nus2|addclass:'form-control' }}
+          <span class="text-danger">{{form.nus2.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.nus3.label_tag }}</p>
+          {{ form.nus3|addclass:'form-control' }}
+          <span class="text-danger">{{form.nus3.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.primary1.label_tag }}</p>
+          {{ form.primary1|addclass:'form-control' }}
+          <span class="text-danger">{{form.primary1.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.primary2.label_tag }}</p>
+          {{ form.primary2|addclass:'form-control' }}
+          <span class="text-danger">{{form.primary2.errors}}</span>
+        </div> <div class="form-group col-md-1">
+          <p>{{ form.primary3.label_tag }}</p>
+          {{ form.primary3|addclass:'form-control' }}
+          <span class="text-danger">{{form.primary3.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.primary4.label_tag }}</p>
+          {{ form.primary4|addclass:'form-control' }}
+          <span class="text-danger">{{form.primary4.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.primary5.label_tag }}</p>
+          {{ form.primary5|addclass:'form-control' }}
+          <span class="text-danger">{{form.primary5.errors}}</span>
+        </div>
+
+      </div>
+      <h3 class="mb-5 mt-5 text-success">Secondary Section</h3>
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <p>{{ form.jss1.label_tag }}</p>
+          {{ form.jss1|addclass:'form-control' }}
+          <span class="text-danger">{{form.jss1.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.jss2.label_tag }}</p>
+          {{ form.jss2|addclass:'form-control' }}
+          <span class="text-danger">{{form.jss2.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.jss3.label_tag }}</p>
+          {{ form.jss3|addclass:'form-control' }}
+          <span class="text-danger">{{form.jss3.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.ss1.label_tag }}</p>
+          {{ form.ss1|addclass:'form-control' }}
+          <span class="text-danger">{{form.ss1.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.ss2.label_tag }}</p>
+          {{ form.ss2|addclass:'form-control' }}
+          <span class="text-danger">{{form.ss2.errors}}</span>
+        </div>
+        <div class="form-group col-md-1">
+          <p>{{ form.ss3.label_tag }}</p>
+          {{ form.ss3|addclass:'form-control' }}
+          <span class="text-danger">{{form.ss3.errors}}</span>
+        </div>
+      </div>
+
+
+
+      <button type="submit" class="btn btn-dark">Submit</button>
+
+    </form>
+  </div>
+
+</div>
+<div class="mt-90"></div>
+
+
+
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    'use strict';
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  $("#id_state").change(function () {
+    var url = $("#studentForm").attr("data-lga-url");
+    var stateId = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'state': stateId
+      },
+      success: function (data) {
+        $("#id_lga").html(data);
+      }
+    });
+
+  });
+</script>
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Database Error{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row p-16 mt-90">
+        <h1 class="text-danger">Ooops!, Student Not a Registered member of the chosen class</h1>
+
+        <ul class="list-group">
+            <li class="list-item">Reasons for this Error:
+                <ul class="list-grroup" type='1'>
+                    <li class="list-item">
+                        <p class="text-justify">{% if exception %}{{ exception }}{% else %} <span class="text-danger">
+                            Not a
+                            registered member of the chosen class:
+                        </span> Ensure you select your
+                            correct class for the chosen session. contact your Class Master for more enquiry.{% endif %}
+                        </p>
+                    </li>
+                    {% if stu_id %}
+                    <li>
+                        <p style=" text-transform: capitalize;">{% if exception %}{{ exception }}{% else %}
+                            <span class="text-danger h2">
+                                Are you in this
+                            class before, but not anymore?
+                            </span>{% endif %}</p>
+
+                        <p class="text-info">click any of the term below to get your result:</p>
+                        <ul class="list-group">
+                            <li class="list-item">
+                                <a class="btn badge"
+                                href=" {% url 'print_result_term1' stu_id=stu_id class_id=class_id %} ">First Term</a>
+                            </li>
+                            <li class="list-item">
+                                <a class="btn badge"
+                                href=" {% url 'print_result_term2' stu_id=stu_id class_id=class_id %} ">Second Term</a>
+                            </li>
+                            <li class="list-item">
+                                <a class="btn badge"
+                                href=" {% url 'print_result_term3' stu_id=stu_id class_id=class_id %} ">Third Term</a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    {% endif %}
+                    <li>
+                        <p class="text-danger">Result yet to be compiled (Wait for result compilation, approvement from the management</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+{% endblock content %}

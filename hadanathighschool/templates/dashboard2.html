@@ -1,0 +1,52 @@
+{% extends "dashboard.html" %}
+{% load static %}
+
+{% block title %}Dashboard: {{ object.username }}{% endblock %}
+
+{% block content %}
+<!-- top stat row -->
+<div class="container">
+  <div class="row m-0 p-0">
+    <h3 class="mb-3">Dashboard</h3>
+    <div class="col-12 p-0">
+      <div class="topstat d-flex justify-content-between">
+        <div class="statbox">
+          <i class="fas fa-users fa-3x"></i>
+          <div class="text">
+            <p>students</p>
+            <h3>{{ total_students }}</h3>
+          </div>
+        </div>
+        <div class="statbox">
+          <i class="fas fa-users fa-3x"></i>
+          <div class="text">
+            <p>teachers</p>
+            <h3>{{ total_teachers }}</h3>
+          </div>
+        </div>
+        <div class="statbox">
+          <i class="fas fa-users fa-3x"></i>
+          <div class="text">
+            <p>Session</p>
+            <h3></h3>
+          </div>
+        </div>
+        <div class="statbox">
+          <i class="fas fa-users fa-3x"></i>
+          <div class="text">
+            <p>Subjects</p>
+            <h3></h3>
+          </div>
+        </div>
+
+      </div>
+      <h3 class="text-primary mt-5">Updates</h3>
+      <p class="mt-5 text-info">* adding new student state and lga fields fixed</p>
+      <p class="text-info">* enquiries form can now be filled the on the homepage</p>
+    </div>
+  </div>
+
+
+</div>
+
+{% endblock content %}

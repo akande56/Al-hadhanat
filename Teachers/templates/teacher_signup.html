@@ -1,0 +1,103 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load myfilter %}
+{% block title %}
+  Add|Teacher
+{% endblock title %}
+
+
+{% block content %}
+  <div class="row">
+
+    <form method="post" novalidate action="{% url 'add_teacher' %}" class="needs-validation mb-0" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h3 class="text-success">Authentication</h3>
+        <div class="form-col mt-5    mb-5">
+          <!-- <p> {{form.photo.label_tag}} </p>
+          {{form.photo}}
+          <span class="text-danger"> {{form.photo.errors}} </span> -->
+          <div class="form-group  row-md-3  mt-5">
+            <p>{{ form.username.label_tag }}</p>
+            {{form.username}}
+           <span class="text-danger">{{ form.username.errors }}</span>
+          </div>
+          <div class="form-group  row-md-3  mt-5">
+            <p>{{ form.password1.label_tag }}</p>
+            {{form.password1}}
+           <span class="text-danger">{{ form.password1.errors }}</span>
+          </div>
+          <div class="form-group  row-md-3  mt-5">
+            <p>{{ form.password2.label_tag }}</p>
+            {{form.password2}}
+           <span class="text-danger">{{ form.password2.errors }}</span>
+          </div>
+        </div>
+
+        <h3 class="text-success mt-5">Bio Data</h3>
+        <div class="form-col">
+            <div class="form-group  col-md-3  mt-5">
+                <p>{{ form.designation.label_tag }}</p>
+                {{form.designation}}
+               <span class="text-danger">{{ form.designation.errors }}</span>
+              </div>
+          <div class="form-group  col-md-3  mt-5">
+            <p>{{ form.firstname.label_tag }}</p>
+            {{form.firstname}}
+           <span class="text-danger">{{ form.firstname.errors }}</span>
+          </div>
+          <div class="form-group col-md-3  mt-5">
+            <p>{{ form.surname.label_tag }}</p>
+            {{form.surname}}
+           <span class="text-danger"> {{ form.surname.errors }}</span>
+          </div>
+          <div class="form-group col-md-3 mt-5">
+            <p>{{ form.middlename.label_tag }}</p>
+            {{ form.middlename }}
+            <span class="text-danger">{{ form.middlename.errors }}</span>
+          </div>
+          <div class="form-group col-md-5 mt-5 ">
+            <p>{{ form.date_of_birth.label_tag }}</p>
+            {{ form.date_of_birth }}
+            <span class="text-danger">{{ form.date_of_birth.errors }}</span>
+          </div>
+
+        </div>
+
+        <h3 class="text-success mt-5 mb-5">Qualification</h3>
+        <div class="form-col">
+          <div class="form-group col-md-4">
+           <p> {{ form.edu_level.label_tag }}</p>
+            {{ form.edu_level }}
+            <span class="text-danger">{{ form.edu_level.errors }}</span>
+
+          </div>
+          <div class="form-group col-md-4">
+            <p>{{ form.course.label_tag }}</p>
+            {{ form.course }}
+            <span class="text-danger"> {{ form.course.errors }}</span>
+          </div>
+
+            <div class="form-group col-md-4">
+              <p>{{form.other_qual.label_tag}}</p>
+              {{form.other_qual}}
+             <span class="text-danger">{{form.other_qual.errors}}</span>
+            </div>
+        </div>
+
+        <h3 class="text-success mt-5 mb-5">Contact</h3>
+        <div class="form-col">
+          <div class="form-group col-md-6">
+            <p>{{ form.mobile.label_tag }}</p>
+            {{ form.mobile }}
+            <span class="text-danger">{{ form.mobile.errors }}</span>
+          </div>
+        </div>
+
+
+          <button type="submit" class="btn btn-success">Submit</button>
+
+      </form>
+  </div>
+{% endblock content %}

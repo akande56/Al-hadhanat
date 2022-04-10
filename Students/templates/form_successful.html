@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  form|success
+{% endblock title %}
+
+
+{% block content %}
+  <div class="row p-16 mt-90">
+     <a href=" {% url 'pdfview' id %} ">ViewPDf</a>
+  </div>
+{% endblock content %}

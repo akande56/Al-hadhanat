@@ -1,0 +1,44 @@
+{% extends 'dashboard.html' %}
+{% block title %}
+  Student|Details
+{% endblock title %}
+
+
+{% block content %}
+<section id="student-detail-section header">
+    <div id="student-detail-section--inner">
+      <div class="container">
+
+        <a href=" {% url 'student_delete' pk=student.pk cl=student.c_class.pk %} " class="btn btn-danger">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+        <a href=" {% url 'student_update' pk=student.pk %} " class="btn btn-secondary">
+          <i class="fas fa-edit"></i>
+        </a>
+        <div class="row py-5">
+          <div class="col-3">
+            <img class="student-profile-img" src="{{ student.photo.url }}" alt="" width="200" height="200">
+          </div>
+          <div class="col-8">
+            <h2>Registration Number: {{student.registration_number}} </h2>
+            <h2> Name: {{ student.firstname}} {{student.surname}} {{student.lastname}}  </h2>
+            <h5> Class:{{ student.c_class.name }} </h5>
+            <h5> Session: {{ student.c_class.session.session }}</h5>
+            <h5> Sex: {{student.sex}} </h5>
+            <h5> Tribe: {{student.tribe}} </h5>
+            <h5> Address: {{student.address}}</h5>
+            <h5> Physical Disability: {{student.physical_disability}} </h5>
+            <h5> Allergy: {{student.allergy}} </h5>
+            {% if student.phone %}
+              <h5>Guardian Mobile: {{ student.phone }}</h5>
+            {% endif %}
+            {% if student.email %}
+            <h5>Email: {{ student.email }}</h5>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

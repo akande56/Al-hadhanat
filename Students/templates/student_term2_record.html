@@ -1,0 +1,170 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+Student | Record
+{% endblock title %}
+
+
+{% block content %}
+{% if back_key %}
+<p class="badge badge-danger"><a class="text-light" href="{% url 'formmaster_students' back_key %}">Back to Class</a></p>
+{% endif %}
+<div class="row-9 text-center mt-5">
+  <h2>Term: <span class="text-info">Second Term</span></h2>
+  {% if subjects %}
+  <table class="table table-bordered mt-5">
+    <thead>
+      <tr>
+        <th colspan="9" >Student Name: {{name}} </th>
+      </tr>
+      <tr>
+        <th scope="col" class="text-info">Subject</th>
+        <th scope="col" class="text-info">Test1</th>
+        <th scope="col" class="text-info">Test2</th>
+        <th scope="col" class="text-info">Assignment1</th>
+        <th scope="col" class="text-info">Assignment2</th>
+        <th scope="col" class="text-info">Exam</th>
+        <th scope="col" class="text-info">Total</th>
+        <th scope="col" class="text-info">Grade</th>
+        <th scope="col" class="text-info"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subject in subjects %}
+      <tr>
+        <th scope="row">
+
+          {{ subject.real_title }}
+        </th>
+        <td>
+
+          {{ subject.test1_term2 }}
+
+        </td>
+        <td>
+
+          {{ subject.test2_term2 }}
+        </td>
+        <td>
+
+          {{ subject.assignment1_term2 }}
+        </td>
+        <td>
+
+          {{ subject.assignment2_term2 }}
+        </td>
+        <td>
+
+          {{ subject.Exam_term2 }}
+        </td>
+        <td>
+
+          {{ subject.total_term2 }}
+        </td>
+        <td>
+
+          {{ subject.grade_term2 }}
+        </td>
+        <td>
+          <a href="{% url 'subject_record_term2' subject.pk %}">Edit</a>
+        </td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if is_paginated %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span
+                                class="sr-only">(current)</span></a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+  <a class="fas fa-edit" href=" {% url 'student_term2_rating' term=2 clss_id=back_key stu_id=view.kwargs.pk %} ">Rating</a> |
+  <a class="fas fa-edit" href=" {% url 'student_term2_rating_list' term=2 clss_id=back_key stu_id=view.kwargs.pk %} ">Update Rating</a>
+  {% endif %}
+
+  {% if form %}
+  <div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="9" >Student Name: {{name}} </th>
+        </tr>
+        <tr>
+          <th scope="col" class="text-info">Subject</th>
+          <th scope="col" class="text-info">Test1</th>
+          <th scope="col" class="text-info">Test2</th>
+          <th scope="col" class="text-info">Assignment1</th>
+          <th scope="col" class="text-info">Assignment2</th>
+          <th scope="col" class="text-info">Exam</th>
+          <th scope="col" class="text-info">Total</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <form action="" method="post">
+          {% csrf_token %}
+          <tr>
+            <th scope="row">
+
+              {{ real_title }}
+            </th>
+            <td>
+
+
+                {{ form.test1_term2 }}
+
+
+            </td>
+            <td>
+
+              {{ form.test2_term2 }}
+            </td>
+            <td>
+
+              {{ form.assignment1_term2 }}
+            </td>
+            <td>
+
+              {{ form.assignment2_term2 }}
+            </td>
+            <td>
+
+              {{ form.Exam_term2 }}
+            </td>
+
+            <td>
+              <button type="submit" class="btn btn-info">Update</button>
+            </td>
+
+          </tr>
+        </form>
+
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+{% endblock content %}

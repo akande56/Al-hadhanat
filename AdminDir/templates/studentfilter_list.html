@@ -1,0 +1,128 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %}
+  Student|Filter
+  <div class="content row offset-md-0 mt-5">
+    <div class="cta d-flex my-5 ml-5">
+
+        <form action=" {% url 'filter_list' request.user.id %} " method="get"
+            style="margin-top: 50px !important; width: 100px !important;"
+            data-types-url="{% url 'ajax_load_types' %}">
+
+
+            <ul class="list-group list-group-horizontal-sm list-group-flush ">
+                <li class="list-group-item mr-5 col-10 h4">
+                    <label>{{filter.form.breed.label}}</label>
+                    {{filter.form.breed}}
+                </li>
+                <li class="list-group-item mr-5 ml-5 col-10 h4">
+                    <label>{{filter.form.sex.label}}</label>
+                    {{filter.form.sex }}
+                </li>
+                <li class="list-group-item mr-5 ml-5 col-10 h4">
+                    <label>{{filter.form.status.label}}</label>
+                    {{filter.form.status}}
+                </li>
+                <li class="list-group-item mr-5 ml-5 col-10 h4">
+                    <label>{{filter.form.type.label}}</label>
+                    {{filter.form.type}}
+                </li>
+
+            </ul>
+            <input type="submit" value="Filter" class="btn btn-primary mt-3">
+        </form>
+    </div>
+
+
+    <div class="animal-table mt-5">
+        <div class="table-content">
+        <table class="table thetable">
+            <thead>
+                <tr>
+                    <th scope="col-lg">S/N</th>
+                    <th scope="col-lg">ID</th>
+                    <th scope="col-lg">Type</th>
+                    <th scope="col-lg">Breed </th>
+                    <th scope="col-lg">Sex</th>
+                    <th scope="col-lg">How</th>
+                    <!-- <th scope="col-lg">Birth</th> -->
+                    <th scope="col-lg">Age</th>
+                    <th scope="col-lg">Status</th>
+                    <!-- <th scope="col-lg">Slaughter</th> -->
+                    <th scope="col-lg">Records</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in filter.qs %}
+                <tr>
+                    <td> {{forloop.counter}} </td>
+                    <td> {{object.animal_tag}} </td>
+                    <td> {{object.type}} </td>
+                    <td> {{object.breed}} </td>
+                    <td>{{object.sex}}</td>
+                    <td>{{object.obtain}}</td>
+                    <!-- <td>{{object.birth}}</td> -->
+                    <td>{{object.age}}</td>
+                    <td>{{object.status}}</td>
+                    <!-- <td>{{object.Slaughter_day}}</td> -->
+                    <td>
+                        <a href=" {% url 'animal_detail' object.pk %} ">
+                            <img src=" {% static 'img/breed (2).png' %} " alt="">
+                        </a>
+
+                    </td>
+                    <td>
+                        <a href="{% url 'animal_update' object.pk %} ">
+                            <i class="far fa-edit" style="color: rgb(20, 113, 20);"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'animal_delete' object.pk %}">
+                            <i class="far fa-trash-alt" style="color: red;"> </i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href=" {% url 'download_barcode' object.pk %} ">
+                            <i class="fas fa-print"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+        {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link"
+                        href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active"><a class="page-link" href="#">{{ i }} <span
+                            class="sr-only">(current)</span></a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        </div>
+    </div>
+  </div>
+
+{% endblock content %}

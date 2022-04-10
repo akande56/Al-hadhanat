@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-hadhanat Student Form</title>
+
+</head>
+<body>
+
+  <h1 style="position: relative; font-size: 30px; text-align: center; font-family: 'Courier New', Courier, monospace;">AL-HADHANAT HIGH SCHOOL, JOS</h1>
+  <p  style="color: red; font-size: 5; text-align: center; font-family: 'Courier New', Courier, monospace;">3 Malam Gambo Street Tudun Faira</p>
+  <p style="color: red; font-size: 5; text-align: center; font-family: 'Courier New', Courier, monospace;">Jos, Plateau State Nigeria</p>
+  <p></p>
+  <table style="padding-top: 20px;">
+    <tr>
+      <td><p style="font-size: 5;"><span style="font-weight: bold; font-family: 'Courier New', Courier, monospace;">Form No:</span>  {{student.id}}</p></td>
+      <td></td>
+      <td><p style="font-size: 5;"> <span style="font-weight: bold;">Form fee:</span>  _______________</p></td>
+    </tr>
+  </table>
+
+
+
+
+
+  <p style="margin-left: 500px; padding-top: 50px;"><img src="{{student.photo.url}}" style="width: 200px; height: 200px;" alt="student_photo"></p>
+
+  <h3 style="text-decoration: solid; font: 30px; font-weight: bold; padding-top: 50px;">Bio Data</h3>
+  <p style="font-size: 5;"><span style="font-weight: bold;">Firstname:</span>  {{student.firstname}}</p>
+  <p style="font-size: 5;"><span style="font-weight: bold;">Surname:</span>  {{student.surname}}</p>
+  <p style="font-size: 5;"><span style="font-weight: bold;">Lastname:</span>  {{student.lastname}}</p>
+  <p style="font: 5;"><span style="font-weight: bold;">Date of birth:</span>  {{student.date_of_birth}}</p>
+  <p style="font: 5;"><span style="font-weight: bold;">Sex:</span>  {{student.sex}}</p>
+  <p style="font: 5;"> <span style="font-weight: bold;">Nationality:</span>  {{student.nationality}} </p>
+  <p style="font: 5;"> <span style="font-weight: bold;">Tribe:</span>  {{student.tribe}} </p>
+  <p style="font: 5;"> <span style="font-weight: bold;">State:</span>  {{student.state}} </p>
+  <p style="font: 5;"> <span style="font-weight: bold;">LGA:</span>  {{student.lga}} </p>
+  <p style="font: 5;"><span style="font-weight: bold;">Address:</span>  {{student.address}}  </p>
+  <p style="font: 5;"><span style="font-weight: bold;">Last school attended:</span>  {{student.prev_school}} </p>
+
+
+  <h3 style="text-decoration: solid; font: 30px; font-weight: bold; padding-top: 20px;">Guardian</h3>
+  <p style="font-size: 5;"><span style="font-weight: bold;">Guardian name:</span>  {{student.guardian_name}}</p>
+  <p style="font-size: 5;"><span style="font-weight: bold;">Phone:</span>  {{student.phone}}</p>
+
+  <h3 style="font: 30px; font-weight: bold; padding-top: 20px;">Medical</h3>
+  <p style="font-size: 5;"><span style="font-weight: bold;">Physical Disability:</span>  {{student.physical_disability}}</p>
+  <p style="font-size: 5;"><span style="font-weight: bold;">Allergy:</span>  {{student.allergy}}</p>
+  {% if student.pp %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: PP</span></p>
+  {% endif %}
+
+  {% if student.nus1 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Nursery 1</span></p>
+  {% endif %} {% if student.nus2 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Nursery 2</span></p>
+  {% endif %} {% if student.nus3 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Nursery 3</span></p>
+  {% endif %} {% if student.primary1 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Primary 1</span></p>
+  {% endif %} {% if student.primary2 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Primary 2</span></p>
+  {% endif %} {% if student.primary3 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Primary 3</span></p>
+  {% endif %} {% if student.primary4 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Primary 4</span></p>
+  {% endif %} {% if student.primary5 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: Primary 5</span></p>
+  {% endif %} {% if student.jss1 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: JSS 1</span></p>
+  {% endif %} {% if student.jss2 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: JSS 2</span></p>
+  {% endif %} {% if student.jss3 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: JSS3</span></p>
+  {% endif %} {% if student.ss1 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: SS1</span></p>
+  {% endif %} {% if student.ss2 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: SS2</span></p>
+  {% endif %} {% if student.ss3 %}
+  <p style="font-size: 5;"><span style="font-weight: bold;">Class: SS3</span></p>
+  {% endif %}
+
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Database Error{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row p-16 mt-90">
+        <h1 class="text-danger">Subject Exist For Class</h1>
+
+    <p style=" text-transform: capitalize; " >{% if exception %}{{ exception }}{% else %}This subject is already created for this class.{% endif %}</p>
+    </div>
+</div>
+{% endblock content %}

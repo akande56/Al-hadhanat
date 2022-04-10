@@ -1,0 +1,30 @@
+{% extends "dashboard.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block title %}
+ Student | Rating
+{% endblock title %}
+
+
+{% block content %}
+<div class="col-md-6">
+    {% if form %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    {% endif %}
+    {% if ratings %}
+
+      {% for r in  ratings %}
+          <p> {{r.student.firstname}} {{r.student.surname}} :
+            <a class="fas fa-edit" href=" {% url 'student_term1_rating_update' r.pk %} ">Update Rating</a>
+         </p>
+      {% endfor %}
+
+    {% endif %}
+</div>
+{% endblock content %}

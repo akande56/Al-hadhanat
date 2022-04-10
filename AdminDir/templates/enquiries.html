@@ -1,0 +1,43 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block title %}
+  Enquiries
+{% endblock title %}
+{% block content %}
+<!-- <div class="container "> -->
+    <div class="row-9 ">
+
+        <div class="row">
+            <table class="table table-bordered">
+              <thead>
+
+                <tr>
+                  <th scope="col" class="text-info">Name</th>
+                  <td scope="row" class="text-info">message</td>
+                  <td scope="col" class="text-info">email</td>
+                </tr>
+              </thead>
+              <tbody>
+
+               {% for enquiry in enquiries %}
+                   <tr>
+                       <td>
+                           <p> {{enquiry.name}} </p>
+                       </td>
+                       <td>
+                           <p> {{enquiry.message}} </p>
+                       </td>
+                       <td>
+                           <p> {{enquiry.email}} </p>
+                       </td>
+
+                   </tr>
+               {% endfor %}
+
+              </tbody>
+            </table>
+
+    </div>
+<!-- </div> -->
+{% endblock content %}

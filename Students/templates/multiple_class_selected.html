@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Form Validation Error{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row p-16 mt-90">
+        <h1 class="text-danger">Multiple selection</h1>
+
+    <p style=" text-transform: capitalize; " >{% if exception %}{{ exception }}{% else %}Multiple Class selected for Student.{% endif %}</p>
+    </div>
+</div>
+{% endblock content %}

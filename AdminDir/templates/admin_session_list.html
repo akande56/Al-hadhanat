@@ -1,0 +1,22 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block title %}
+  Session | List
+{% endblock title %}
+{% block content %}
+<!-- <div class="container "> -->
+    <div class="row-9 ">
+
+      {% for session in sessions %}
+          <ul class="list-group">
+              <li class="list-item">
+                <a href=" {% url 'session_class' session.id %} ">{{session.session}}</a>
+              </li>
+          </ul>
+      {% endfor %}
+
+
+    </div>
+<!-- </div> -->
+{% endblock content %}

@@ -1,0 +1,185 @@
+{% load static %}
+{% load pwa %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="AL-Hadhanat High School Website">
+  <meta name="author" content="abdulsalam abubakar salman">
+  {% progressive_web_app_meta %}
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'css/fonts/bootstrap.min.css'%}">
+
+  <!-- Style -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href=" {% static 'css/project.css' %}">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+  <!-- <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}"> -->
+
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+
+  <title>
+    {% block title %}
+
+    {% endblock title %}
+  </title>
+
+  <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script defer src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script defer src="{% static 'js/popper.min.js' %}"></script>
+  <script defer src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script defer src="{% static 'js/main1.js' %}"></script>
+  <script defer src="https://kit.fontawesome.com/16475baae0.js" crossorigin="anonymous"></script>
+  {% block extra_header %}
+
+  {% endblock %}
+
+</head>
+
+<body class="bg-light">
+
+  <aside class="sidebar">
+    <div class="toggle">
+      <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span></span>
+      </a>
+    </div>
+
+    <div class="side-inner" style="background-color:  #07BF51;">
+      <div class="profile">
+        <div class="nav-menu">
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'users:detail' request.user.username %}">Settings</a></li>
+            <li><a href="{% url 'account_logout' %}">Logout {{ user.username }}</a></li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="nav-menu">
+
+        <ul class="list-group">
+          {% if user.is_superuser %}
+          <h2 class="text-dark">Session</h2>
+          <li class=""><a href="{% url 'add_session' %}">
+              <span class="icon-location-arrow">New Session</span>
+            </a></li>
+          <li><a href="{% url 'session_list' %}">
+              <span class="icon-location-arrow">Academic Sessions</span>
+            </a></li>
+
+
+          <h2 class="text-dark">Teacher</h2>
+          <li class=""><a href="{% url 'add_teacher' %}">
+              <span class="icon-location-arrow">Add Teacher</span>
+            </a></li>
+          <li><a href="{% url 'teachers' %}">
+              <span class="icon-location-arrow">Teachers</span>
+            </a></li>
+          <li class=""><a href="{% url 'add_formmaster' %}">
+              <span class="icon-location-arrow">Add Form Master</span>
+            </a></li>
+          <li><a href="#">
+              <span class="icon-location-arrow">Article</span>
+            </a></li>
+          <li><a href="#">
+              <span class="icon-location-arrow">Quiz</span>
+            </a></li>
+
+
+          <h2 class="text-dark">Student</h2>
+          <li class=""><a href="{% url 'all_class' %}">
+              <span class="icon-location-arrow">Class</span>
+            </a></li>
+          <li><a href="{% url 'add_new_student' %}">
+              <span class="icon-location-arrow">Add Student</span>
+            </a></li>
+          <li class=""><a href="{% url 'all_student' %}">
+              <span class="icon-location-arrow">All Student</span>
+            </a></li>
+
+
+          <h2 class="text-dark">Event</h2>
+          <li class=""><a href="#">
+              <span class="icon-location-arrow">New Event</span>
+            </a></li>
+          <li><a href="#">
+              <span class="icon-location-arrow">All Events</span>
+            </a></li>
+
+
+          <h2 class="text-dark">Admin</h2>
+          <li class=""><a href="{% url 'enquiries' %}">
+              <span class="icon-location-arrow">Queries</span>
+            </a></li>
+          <li><a href="#">
+              <span class="icon-location-arrow">News</span>
+            </a></li>
+
+          {% endif %}
+
+
+          {% if user.is_teacher %}
+          <h2 class="text-dark">Class Management</h2>
+          <li class=""><a href="{% url 'formmaster_class' %}">
+              <span class="icon-location-arrow">Class</span>
+            </a></li>
+
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+  <main>
+    <div class="site-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}<button type="button"
+              class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="col-md-9 mt-2">
+            {% block content %}
+
+            {% endblock content %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+
+
+</body>
+
+</html>

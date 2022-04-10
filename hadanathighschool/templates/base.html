@@ -1,0 +1,295 @@
+{% load static i18n %}
+{% load pwa %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}AL-Hadhanat High School{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AL-Hadhanat High School Website">
+    <meta name="author" content="abdulsalam abubakar salman">
+    {% progressive_web_app_meta %}
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+
+    {% block css %}
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    <!-- This file stores project-specific CSS -->
+    <!-- Favicon and Touch Icons -->
+
+<!-- Stylesheet -->
+<!-- <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" > -->
+<link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet" >
+<link href="{% static 'css/animate.css' %}" rel="stylesheet" >
+<link href="{% static 'css/css-plugin-collections.css' %}" rel="stylesheet">
+<!-- CSS | menuzord megamenu skins -->
+<link href="{% static 'css/menuzord-megamenu.css' %}" rel="stylesheet">
+<link id="menuzord-menu-skins" href="{% static 'css/menuzord-skins/menuzord-boxed.css' %}" rel="stylesheet">
+<!-- CSS | Main style file -->
+<link href="{% static 'css/style-main.css' %}" rel="stylesheet" >
+<!-- CSS | Preloader Styles -->
+<link href="{% static 'css/preloader.css' %}" rel="stylesheet" >
+<!-- CSS | Custom Margin Padding Collection -->
+<link href="{% static 'css/custom-bootstrap-margin-padding.css' %}" rel="stylesheet">
+<!-- CSS | Responsive media queries -->
+<link href="{% static 'css/responsive.css' %}" rel="stylesheet" >
+
+<!-- CSS | Theme Color -->
+<link href="{% static 'css/colors/theme-skin-color-set1.css' %}" rel="stylesheet">
+    {% endblock %}
+    <!-- Le javascript
+    ================================================== -->
+    {# Placed at the top of the document so pages load faster with defer #}
+    {% block javascript %}
+      <!-- Bootstrap JS and its dependencies-->
+      <!-- <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+      <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <!-- <script defer src="{% static 'js/jquery-2.2.4.min.js' %}"></script> -->
+      <script defer src="{% static 'js/jquery-ui.min.js' %}"></script>
+      <script defer src="{% static 'js/bootstrap.min.js' %}"></script>
+
+      <!-- JS | jquery plugin collection for this theme -->
+      <script defer src="{% static 'js/jquery-plugin-collection.js' %}"></script>
+      <!-- JS | Custom script for all pages -->
+      <script defer src="{% static 'js/custom.js' %}"></script>
+      <script defer src="{% static 'js/extra.js' %}"></script>
+
+      <!-- Revolution Slider 5.x SCRIPTS -->
+     <script defer src="{% static 'js/revolution-slider/js/jquery.themepunch.tools.min.js' %}"></script>
+     <script defer src="{% static 'js/revolution-slider/js/jquery.themepunch.revolution.min.js' %}"></script>
+     <script defer src="{% static 'js/extra-rev-slider-new.js' %}"></script>
+
+      <!-- Your stuff: Third-party javascript libraries go here -->
+
+      <!-- place project specific Javascript in this file -->
+      <script defer  src="{% static 'js/revolution-slider/js/extensions/revolution.extension.slideanims.min.js' %}"></script>
+      <script defer  src="{% static 'js/revolution-slider/js/extensions/revolution.extension.layeranimation.min.js' %}"></script>
+      <script defer  src="{% static 'js/revolution-slider/js/extensions/revolution.extension.navigation.min.js' %}"></script>
+      <script defer  src="{% static 'js/revolution-slider/js/extensions/revolution.extension.parallax.min.js' %}"></script>
+
+    {% endblock javascript %}
+
+  </head>
+
+  <body>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+    {% endfor %}
+{% endif %}
+    <div class="">
+      <div id="wrapper" class="clearfix">
+        <!-- preloader -->
+        <div id="preloader">
+          <div id="spinner">
+            <div class="preloader-dot-loading">
+              <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div id="disable-preloader" class="btn btn-default btn-sm">Click here to start...</div>
+        </div>
+
+       <!-- Header -->
+    <header id="header" class="header modern-header modern-header-theme-colored">
+      <div class="header-top bg-theme-colored2 sm-text-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="widget text-white">
+                <i class="fa fa-clock-o text-white"></i> School Days:  Mon - Friday : 7.00 am - 12.30 pm (Primary), 7.00 am - 2.00 pm (Secondary)
+              </div>
+            </div>
+            <div class="col-md-4">
+
+
+              {% if not user.is_authenticated %}
+              <div class="widget">
+                <ul class="list-inline  text-right flip sm-text-center">
+                  <li class="m-0 pl-10"> <a href="{% url 'account_login' %}" class="text-white "><i class="fa fa-user-o mr-5 text-white"></i> Login</a> </li>
+                </ul>
+              </div>
+              <div class="widget">
+                <ul class="list-inline  text-right flip sm-text-center">
+                  <li class="m-0 pl-10"> <a href="{% url 'dashboard' %}" class="text-white "><i class="fa fa-user-o mr-5 text-white"></i> Dashboard</a> </li>
+                </ul>
+              </div>
+              {% else %}
+              <div class="widget">
+                <ul class="list-inline  text-right flip sm-text-center">
+                  <li class="m-0 pl-10"> <a href="{% url 'account_logout' %}" class="text-white "><i class="fa fa-user-o mr-5 text-white"></i> Logout</a> </li>
+                </ul>
+              </div>
+              <div class="widget">
+                <ul class="list-inline  text-right flip sm-text-center">
+                  <li class="m-0 pl-10"> <a href="{% url 'dashboard' %}" class="text-white "><i class="fa fa-user-o mr-5 text-white"></i> Dashboard</a> </li>
+                </ul>
+              </div>
+
+              {% endif %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-middle p-0 bg-light xs-text-center">
+        <div class="container pt-20 pb-20">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+              <div class="widget sm-text-center">
+                <i class="fa fa-envelope text-theme-colored font-32 mt-5 mr-sm-0 sm-display-block pull-left flip sm-pull-none"></i>
+                <a href="#" class="font-12 text-gray text-uppercase">Mail Us Today</a>
+                <h5 class="font-13 text-black m-0"> hadhanat@gmail.com</h5>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-6">
+              <div class="widget text-center">
+                <a class="" href="#"><img src="{% static 'images/logo-wide1.jpg' %}" alt=""></a>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3">
+              <div class="widget sm-text-center">
+                <i class="fa fa-phone-square text-theme-colored font-32 mt-5 mr-sm-0 sm-display-block pull-left flip sm-pull-none"></i>
+                <a href="#" class="font-12 text-gray text-uppercase">Call us for more details</a>
+                <h5 class="font-13 text-black m-0"> 07036153483</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-nav">
+        <div class="header-nav-wrapper navbascrolltofixed">
+          <div class="container">
+            <nav id="menuzord" class="menuzord green">
+              <ul class="menuzord-menu">
+                <li class="active"><a href="{% url 'home' %}">Home</a>
+                  <ul class="dropdown">
+                    <!-- <li><a href="index-mp-layout1.html">Index Multipage Layout</a></li>
+                    <li><a href="index-sp-layout1.html">Index Singlepage Layout</a></li> -->
+                  </ul>
+                </li>
+                <li><a href="#">Pages</a>
+                  <ul class="dropdown">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Events list</a></li>
+                    <li><a href=" {% url 'gallery' %} ">Gallery</a></li>
+                    <li><a href="#">Faqs</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <!-- <li><a href="page-coming-soon.html">Coming Soon</a></li> -->
+                    <!-- <li><a href="page-404.html">Page 404</a></li> -->
+                    <!-- <li><a href="page-under-construction.html">Under Construction</a></li> -->
+                  </ul>
+                </li>
+                <li><a href="#">Student</a>
+                  <ul class="dropdown">
+                    <li><a href="{% url 'result_session' %}">Result</a></li>
+                    <li><a href="#">Quiz</a></li>
+                  </ul>
+                </li>
+                <li><a href="#">Teachers</a>
+                  <ul class="dropdown">
+                    <li><a href="#">Teachers</a></li>
+                    <li><a href="#">Blog</a></li>
+                  </ul>
+                </li>
+                <li><a href="javascript:void(0)">Mega Menu</a>
+                  <div class="megamenu megamenu-bg-img">
+                    <div class="megamenu-row">
+                      <div class="col3">
+                        <h4 class="megamenu-col-title">Latest News:</h4>
+                        <div class="widget">
+                          <div class="latest-posts">
+                            <article class="post media-post clearfix pb-0 mb-10">
+                              <a href="#" class="post-thumb"><img alt="" src="http://placehold.it/80x55"></a>
+                              <div class="post-right">
+                                <h5 class="post-title mt-0 mb-5"><a href="#">Post Title Here</a></h5>
+                                <p class="post-date mb-0 font-12">Oct 01, 2021</p>
+                              </div>
+                            </article>
+                            <article class="post media-post clearfix pb-0 mb-10">
+                              <a href="#" class="post-thumb"><img alt="" src="http://placehold.it/80x55"></a>
+                              <div class="post-right">
+                                <h5 class="post-title mt-0 mb-5"><a href="#">Post Title Here</a></h5>
+                                <p class="post-date mb-0 font-12">Oct 01, 2021</p>
+                              </div>
+                            </article>
+                            <article class="post media-post clearfix pb-0 mb-10">
+                              <a href="#" class="post-thumb"><img alt="" src="http://placehold.it/80x55"></a>
+                              <div class="post-right">
+                                <h5 class="post-title mt-0 mb-5"><a href="#">Post Title Here</a></h5>
+                                <p class="post-date mb-0 font-12">Oct 02, 2021</p>
+                              </div>
+                            </article>
+                            <article class="post media-post clearfix pb-0 mb-10">
+                              <a href="blog-single-right-sidebar.html" class="post-thumb"><img alt="" src="http://placehold.it/80x55"></a>
+                              <div class="post-right">
+                                <h5 class="post-title mt-0 mb-5"><a href="blog-single-right-sidebar.html">Post Title Here</a></h5>
+                                <p class="post-date mb-0 font-12">Oct 03, 2021</p>
+                              </div>
+                            </article>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col3">
+                        <h4 class="megamenu-col-title"><strong>Featured News:</strong></h4>
+                        <article class="post clearfix">
+                          <div class="entry-header">
+                            <div class="post-thumb"> <img class="img-responsive" src="{% static 'images/blog/1.jpg' %}" alt=""> </div>
+                          </div>
+                          <div class="entry-content">
+                            <!-- text here in p below -->
+                            <p class=""></p>
+                            <a class="btn btn-dark btn-theme-colored" href="#">read more..</a> </div>
+                        </article>
+                      </div>
+
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
+              <ul class="pull-right sm-pull-nonelist-inline nav-side-icon-list">
+                <li>
+                  <a href="#fullscreen-search-form" id="fullscreen-search-btn"><i class="search-icon text-theme-colored2 fa fa-search"></i></a>
+                  <div id="fullscreen-search-form">
+                    <button type="button" class="close">×</button>
+                    <form>
+                      <input type="search" value="" placeholder="Search keywords(s)" />
+                      <button type="submit"><i class="search-icon fa fa-search"></i></button>
+                    </form>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+   {% block content %}
+
+   {% endblock content %}
+
+
+
+  <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
+   </div>
+
+
+      {% block modal %}{% endblock modal %}
+
+      {% block inline_javascript %}
+      {# Script tags with only code, no src (defer by default) #}
+      {% endblock inline_javascript %}
+    </div>
+  </body>
+</html>
