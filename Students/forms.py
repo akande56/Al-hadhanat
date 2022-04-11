@@ -103,6 +103,7 @@ class FormMasterStudentForm(forms.ModelForm):
             "ss1",
             "ss2",
             "ss3",
+            "category",
             # "c_class",
         ]
         widgets = {

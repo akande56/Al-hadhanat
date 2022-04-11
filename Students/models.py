@@ -157,6 +157,14 @@ class Student(models.Model):
     c_class = models.ForeignKey(
         Class, on_delete=models.SET_NULL, related_name="student_class", null=True
     )
+    category = models.CharField(
+        max_length=50, choices=(
+            ('science', 'science'),
+            ('social', 'social'),
+            ('all', 'all')
+        ),
+        default='all'
+    )
 
     class Meta:
         """Meta definition for Student."""

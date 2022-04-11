@@ -645,8 +645,12 @@ def compile_class_result(request, clss_id, term_id):
                     totall += subj.total_term2
                 if term == 3:
                     totall += subj.total_term3
-            average = totall / total_subj
-            print(average)
+            if(student.category =='science'):
+                average = totall/13
+            elif(student.category == 'social'):
+                average = totall/14
+            else:
+                average = totall / total_subj
             average = round(average, 2)
             if term == 1:
                 result = Result.objects.get(
@@ -698,7 +702,12 @@ def compile_class_result(request, clss_id, term_id):
                 if term == 3:
                     totall += subj.total_term3
             total_subj = len(all_subj)
-            average = totall / total_subj
+            if(student.category =='science'):
+                average = totall/13
+            elif(student.category == 'social'):
+                average = totall/14
+            else:
+                average = totall / total_subj
             average = round(average, 2)
             if term == 1:
                 Result.objects.create(
