@@ -751,12 +751,12 @@ def get_position(request, clss_id, term_id):
     term = term_id
     result_instances = Result.objects.filter(
         result_class=clss, result_term=term
-    ).order_by("-overrall_totall")
+    ).order_by("-average")
     position = 1
     previous_student = ''
     for student in result_instances:
         if(previous_student!=''):
-            if(previous_student.overrall_totall==student.overrall_totall):
+            if(previous_student.average == student.average):
                 student.position = previous_student.position
                 student.save()
                 continue

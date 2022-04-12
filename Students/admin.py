@@ -46,7 +46,10 @@ class StudentAdmin(admin.ModelAdmin):
         "guardian_name",
         "phone",
     )
-    list_filter = ("admitted",)
+    list_filter = (
+        "admitted",
+        "c_class",
+        )
     inlines = [SubjectInline]
     # readonly_fields = ('',)
     search_fields = ("firstname",)
@@ -113,6 +116,7 @@ class StudentAdmin(admin.ModelAdmin):
                     "ss2",
                     "ss3",
                     "c_class",
+                    "category",
                 )
             },
         ),
@@ -182,6 +186,14 @@ class ClassAdmin(admin.ModelAdmin):
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
     """Admin View for Subject"""
+    list_display = (
+        "title",
+        "student"
+    )
+    list_filter = [
+        "r_class"
+    ]
+
 
 
 @admin.register(Result)
@@ -193,6 +205,7 @@ class ResultAdmin(admin.ModelAdmin):
         "result_term",
         "student",
         "overrall_totall",
+        "average",
         "position",
     )
     list_filter = (
