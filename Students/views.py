@@ -296,6 +296,16 @@ class StudentRatingTerm1CreateView(SuccessMessageMixin, CreateView):
         else:
             pass
 
+        user = self.request.user
+        teacher = Teacher.objects.get(user=user)
+        clss = Class.objects.get(id=clss_id)
+        try:
+            FormMaster.objects.get(Teacher=teacher, f_class=clss)
+        except ObjectDoesNotExist:
+            raise PermissionDenied
+        else:
+            pass
+
         form.instance.student = student
         form.instance.r_class = r_class
         form.instance.term = term
@@ -462,6 +472,16 @@ class StudentRatingTerm2CreateView(SuccessMessageMixin, CreateView):
         r_class = Class.objects.get(id=clss_id)
         if Rating.objects.filter(student=student, r_class=r_class, term=2):
             return ValidationError("Rating already existed for student, edit instead!")
+        else:
+            pass
+        
+        user = self.request.user
+        teacher = Teacher.objects.get(user=user)
+        clss = Class.objects.get(id=clss_id)
+        try:
+            FormMaster.objects.get(Teacher=teacher, f_class=clss)
+        except ObjectDoesNotExist:
+            raise PermissionDenied
         else:
             pass
 
@@ -634,6 +654,16 @@ class StudentRatingTerm3CreateView(SuccessMessageMixin, CreateView):
         else:
             pass
 
+        user = self.request.user
+        teacher = Teacher.objects.get(user=user)
+        clss = Class.objects.get(id=clss_id)
+        try:
+            FormMaster.objects.get(Teacher=teacher, f_class=clss)
+        except ObjectDoesNotExist:
+            raise PermissionDenied
+        else:
+            pass
+
         form.instance.student = student
         form.instance.r_class = r_class
         form.instance.term = term
@@ -649,7 +679,7 @@ class StudentRatingTerm3UpdateView(SuccessMessageMixin, UpdateView):
     form_class = RatingStudentTermForm
     template_name = "student_term3_update.html"
     success_message = "Rating Updated!"
-
+    
     def get_success_url(self):
         rating_id = self.kwargs["pk"]
         student = Rating.objects.get(pk=rating_id).student.id
@@ -892,7 +922,17 @@ def compile_class_result(request, clss_id, term_id):
 
 
 def get_position(request, clss_id, term_id):
+    user = request.user
+    teacher = Teacher.objects.get(user=user)
     clss = Class.objects.get(id=clss_id)
+    try:
+        FormMaster.objects.get(Teacher=teacher, f_class=clss)
+    except ObjectDoesNotExist:
+        raise PermissionDenied
+    else:
+        pass
+
+    # clss = Class.objects.get(id=clss_id)
     term = term_id
     result_instances = Result.objects.filter(
         result_class=clss, result_term=term
