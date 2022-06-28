@@ -3,6 +3,12 @@
 
 {% block title %}Dashboard: {{ object.username }}{% endblock %}
 
+
+{% block extra_header %}
+
+{% endblock extra_header %}
+
+
 {% block content %}
 <!-- top stat row -->
 <div class="container">
@@ -41,8 +47,11 @@
 
       </div>
       <h3 class="text-primary mt-5">Updates</h3>
-      <p class="mt-5 text-info">* adding new student state and lga fields fixed</p>
-      <p class="text-info">* enquiries form can now be filled the on the homepage</p>
+      <p class="mt-5 text-info">* changes in user interface</p>
+      <p class="text-info">* All teachers can now add their respective subject if not addedd to a class, and add students scores.</p>
+      <p class="text-info">* Compilation, Rating of result can only be done by FormMasters</p>
+      <p class="text-info">* Edition of scores for any class will not be available after end of a session</p>
+      <p class="text-info">* In case of any abnormalities try using Chrome!</p>
     </div>
   </div>
 

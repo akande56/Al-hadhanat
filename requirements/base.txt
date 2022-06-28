@@ -32,3 +32,4 @@ python-bidi==0.4.2
 webencodings==0.5.1
 xhtml2pdf==0.2.5
 django-pwa==1.0.10
+django-bootstrap-modal-forms==2.2.0

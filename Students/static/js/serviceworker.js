@@ -32,7 +32,7 @@ workbox.routing.registerRoute(
     new workbox.strategies.NetworkFirst({
         cacheName: 'dynamic-cache',
         plugins: [new workbox.expiration.ExpirationPlugin({
-            maxEntries: 110,
+            maxEntries: 120,
         })],
     })
 );

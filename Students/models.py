@@ -1,3 +1,4 @@
+from mailbox import mbox
 from django.db import models
 
 from Teachers.models import Teacher
@@ -8,6 +9,7 @@ class Session(models.Model):
 
     session = models.CharField(max_length=30)
     create_date = models.DateField(auto_now=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         """Meta definition for Session."""
@@ -27,6 +29,7 @@ class Class(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
     # subjects = models.ManyToManyField(Subject, related_name='class_subjects',through="StudentToSubjects")
     create_date = models.DateField(auto_now=True)
+    secondary = models.BooleanField(default=False)
 
     class Meta:
         """Meta definition for Class."""
@@ -44,7 +47,7 @@ class FormMaster(models.Model):
 
     Teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
     f_class = models.OneToOneField(Class, on_delete=models.SET_NULL, null=True)
-    # TODO: Define fields here
+    
 
     class Meta:
         """Meta definition for FromMaster."""

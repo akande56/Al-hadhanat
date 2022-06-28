@@ -5,94 +5,116 @@
 
 
 <!-- <div class="container"> -->
-  <div class="m-0 p-0">
-    <h3 class="mb-3">Class Management</h3>
+<div class="m-0 p-0">
+  <h3 class="mb-3">Class Management</h3>
 
-    {% for c in class %}
-    <div class="row-3 p-0 mb-5">
-      <div class="topstat d-block justify-content-between">
-        <div class="statbox">
-          <i class="fas fa-users fa-3x"></i>
-          <div class="text">
-            <p>Student</p>
-            <ul class="list-group" style="list-style: none;">
-              <li><p><span class="statbox list-group-item"><a href="{% url 'formmaster_students' c.f_class.pk %}" >{{c.f_class.name}} </a></span></p></li>
-              <li><p><span class="statbox list-group-item"><a href=" {% url 'class_add_student' c.f_class.pk %} ">Add Student</a></span</p></li>
-              <li><p><span class="statbox list-group-item"><a href=" {% url 'add_class' c.f_class.pk %} ">Add subject</a></span></p></li>
-              <li><p><span class="statbox list-group-item"><a href=" {% url 'class_all_subjects' c.f_class.pk %} ">All subject</a></span></p></li>
-              </ul>
-          </div>
-        </div>
+  {% for c in class %}
 
-        <div class="row-3">
-          <div class="statbox">
-            <i class="fas fa-users fa-3x"></i>
-            <div class="text">
-              <p>Fist Term</p>
-              <ul class="list-group" style="list-style: none;">
-                <li><p><span class="statbox list-group-item"><a href=" {% url 'compile_result' clss_id=c.f_class.pk term_id=1 %} ">Compile Result</a></span></p></li>
-                <li><p><span class="statbox list-group-item"><a href=" {% url 'position' clss_id=c.f_class.pk term_id=1 %} ">Distribute position</a></span></p></li>
-                </ul>
+  
+  {% if c.secondary %}
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <p class="row md-3">
+        <button class="btn btn-success list-group-item-action font-weight-bold text-danger" type="button"
+          data-toggle="collapse" data-target="#class{{c.pk}}" aria-expanded="false"
+          aria-controls="class{{c.pk}}">{{c.name}}</button>
+      </p>
+      <div class="row collapse" id="class{{c.pk}}">
+        <div class="col-md-8 offset-md-2">
+          <div class="card">
+            <div class="card-header">
+              <h1 class="card-header h1 text-dark">{{c.name}}</h1>
+            </div>
+            <div class="card-body">
+              <div class="col">
+                <div class="col">
+                  <p></p>
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>Record</p>
+                      <ul class="list-group" style="list-style: none;">
+                        <li><p><span class="statbox list-group-item"><a href="{% url 'formmaster_students' c.pk %}" >Class Room </a></span></p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'class_add_student' c.pk %} ">Add Student</a></span</p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'add_class' c.pk %} ">Add subject</a></span></p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'class_all_subjects' c.pk %} ">All subject</a></span></p></li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div class="row-3">
+                    <div class="statbox">
+                      <i class="fas fa-users fa-3x"></i>
+                      <div class="text">
+                        <p>Fist Term</p>
+                        <ul class="list-group" style="list-style: none;">
+                          <li><p><span class="statbox list-group-item"><a href=" {% url 'compile_result' clss_id=c.pk term_id=1 %} ">Compile Result</a></span></p></li>
+                          <li><p><span class="statbox list-group-item"><a href=" {% url 'position' clss_id=c.pk term_id=1 %} ">Distribute position</a></span></p></li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row-3">
+                    <div class="statbox">
+                      <i class="fas fa-users fa-3x"></i>
+                      <div class="text">
+                        <p>Second Term</p>
+                        <ul class="list-group" style="list-style: none;">
+                          <li><p><span class="statbox list-group-item"><a href=" {% url 'compile_result' clss_id=c.pk term_id=2 %} ">Compile Result</a></span></p></li>
+                          <li><p><span class="statbox list-group-item"><a href=" {% url 'position' clss_id=c.pk term_id=2 %} ">Distribute position</a></span></p></li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row-3">
+                    <div class="statbox">
+                      <i class="fas fa-users fa-3x"></i>
+                      <div class="text">
+                        <p>Third Term</p>
+                        <ul class="list-group" style="list-style: none;">
+                          <li><p><span class="statbox list-group-item"><a href=" {% url 'compile_result' clss_id=c.pk term_id=3 %} ">Compile Result</a></span></p></li>
+                          <li><p><span class="statbox list-group-item"><a href=" {% url 'position' clss_id=c.pk term_id=3 %} ">Distribute position</a></span></p></li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="row-3">
-          <div class="statbox">
-            <i class="fas fa-users fa-3x"></i>
-            <div class="text">
-              <p>Second Term</p>
-              <ul class="list-group" style="list-style: none;">
-                <li><p><span class="statbox list-group-item"><a href=" {% url 'compile_result' clss_id=c.f_class.pk term_id=2 %} ">Compile Result</a></span></p></li>
-                <li><p><span class="statbox list-group-item"><a href=" {% url 'position' clss_id=c.f_class.pk term_id=2 %} ">Distribute position</a></span></p></li>
-                </ul>
-            </div>
-          </div>
-        </div>
-        <div class="row-3">
-          <div class="statbox">
-            <i class="fas fa-users fa-3x"></i>
-            <div class="text">
-              <p>Third Term</p>
-              <ul class="list-group" style="list-style: none;">
-                <li><p><span class="statbox list-group-item"><a href=" {% url 'compile_result' clss_id=c.f_class.pk term_id=3 %} ">Compile Result</a></span></p></li>
-                <li><p><span class="statbox list-group-item"><a href=" {% url 'position' clss_id=c.f_class.pk term_id=3 %} ">Distribute position</a></span></p></li>
-                </ul>
-            </div>
-          </div>
-        </div>
-
-
       </div>
-    </div>
-    {% endfor %}
-    {% if is_paginated %}
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    {% if page_obj.has_previous %}
-                    <li class="page-item"><a class="page-link"
-                            href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                    {% else %}
-                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    {% endif %}
-                    {% for i in paginator.page_range %}
-                    {% if page_obj.number == i %}
-                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span
-                                class="sr-only">(current)</span></a></li>
-                    {% else %}
-                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
-            {% endif %}
+    </li>
+  </ul>
+  {% endif %}
+    
+  
+  {% endfor %}
+  {% if is_paginated %}
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+      {% endif %}
+      {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+      <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
 
-  </div>
+</div>
 <!-- </div> -->
 
 

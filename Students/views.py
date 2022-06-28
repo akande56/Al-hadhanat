@@ -1,9 +1,8 @@
 import io
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied, ObjectDoesNotExist
 from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -15,9 +14,8 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.views.generic.edit import FormView
 from django_xhtml2pdf.utils import generate_pdf
 from PyPDF2 import PdfFileMerger
-
+from bootstrap_modal_forms.generic import BSModalUpdateView
 from Teachers.models import Teacher
-
 from .decorators import teacher_required
 from .forms import (
     FormMasterStudentForm,
@@ -26,12 +24,20 @@ from .forms import (
     ResultSessionForm,
     StudentForm,
     SubjectsForm,
-    SubjectTerm1UpdateForm,
-    SubjectTerm2UpdateForm,
-    SubjectTerm3UpdateForm,
+    SubjectTerm1UpdateBSModalForm,
+    SubjectTerm2UpdateBSModalForm,
+    SubjectTerm3UpdateBSModalForm,
 )
-from .models import LGA, Class, FormMaster, Rating, Result, Session, Student, Subject
-
+from .models import (
+    LGA, 
+    Class, 
+    FormMaster, 
+    Rating, 
+    Result, 
+    Session, 
+    Student, 
+    Subject,
+)
 # from io import BytesIO
 # from typing import KeysView
 
@@ -72,7 +78,6 @@ class StudentUpdateView(SuccessMessageMixin, UpdateView):
     def get_success_url(self):
         pk = self.kwargs.get("pk")
         stu = Student.objects.get(pk=pk)
-
         return reverse_lazy("formmaster_students", kwargs={"pk": stu.c_class.pk})
 
 
@@ -98,8 +103,11 @@ class FormmasterClassListView(ListView):
     context_object_name = "class"
 
     def get_queryset(self):
-        teacher = Teacher.objects.get(user=self.request.user)
-        queryset = FormMaster.objects.filter(Teacher=teacher)
+        # teacher = Teacher.objects.get(user=self.request.user)
+        # queryset = FormMaster.objects.filter(Teacher=teacher)
+        current_session = Session.objects.get(active=True)
+        classes = Class.objects.filter(session=current_session).order_by('name')
+        queryset = classes
         return queryset
 
 
@@ -240,6 +248,8 @@ class FormmastStudentCreateView(SuccessMessageMixin, CreateView):
         return _("formmaster_students", kwargs={"pk": self.kwargs.get("pk")})
 
 
+
+
 # Term 1
 @method_decorator([login_required, teacher_required], name="dispatch")
 class StudentSubjectTerm1ListView(ListView):
@@ -325,12 +335,11 @@ class StudentRatingTerm1ListView(ListView):
         queryset = Rating.objects.filter(student=student, r_class=r_class, term=term)
         return queryset
 
-
+'''
 @login_required
 @teacher_required
 def studentSubjectTerm1Record(request, pk):
     context = {}
-
     obj = get_object_or_404(Subject, pk=pk)
     stu_id = obj.student.id
     form = SubjectTerm1UpdateForm(request.POST or None, instance=obj)
@@ -363,7 +372,50 @@ def studentSubjectTerm1Record(request, pk):
         obj.student.surname, obj.student.firstname, obj.student.lastname
     )
     return render(request, "student_term1_record.html", context)
+'''
 
+@method_decorator([login_required, teacher_required], name="dispatch")
+class Term1SubjectBSModalUpdateView(BSModalUpdateView):
+    model = Subject
+    form_class = SubjectTerm1UpdateBSModalForm
+    template_name = 'partialTerm1SubjectUpdate.html'
+    success_message = gettext_lazy('Subject score updated')
+
+    def form_valid(self, form):
+        total = (
+            form.instance.test1_term1
+            + form.instance.test2_term1
+            + form.instance.assignment1_term1
+            + form.instance.assignment2_term1
+            + form.instance.Exam_term1
+        )
+        form.instance.total_term1 = total
+        if total >= 70 and total <= 100:
+            form.instance.grade_term1 = "A"
+        elif total >= 60 and total <= 70:
+            form.instance.grade_term1 = "B"
+        elif total >= 50 and total <= 59:
+            form.instance.grade_term1 = "C"
+        elif total >= 40 and total <= 49:
+            form.instance.grade_term1 = "D"
+        else:
+            form.instance.grade_term1 = "E"
+        return super().form_valid(form)
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super(Term1SubjectBSModalUpdateView, self).get_context_data(**kwargs)
+        context['real_title'] = self.object.real_title
+        context["name"] = "{} {} {}".format(
+        self.object.student.surname, 
+        self.object.student.firstname, 
+        self.object.student.lastname)
+        return context
+    
+    def get_success_url(self):
+        stu_id = self.object.student.id
+        return reverse_lazy("student_subjects_term1", kwargs={'pk':stu_id})
+    
 
 # Tearm 2
 
@@ -452,7 +504,7 @@ class StudentRatingTerm2ListView(ListView):
         queryset = Rating.objects.filter(student=student, r_class=r_class, term=term)
         return queryset
 
-
+'''
 @login_required
 @teacher_required
 def studentSubjectTerm2Record(request, pk):
@@ -489,7 +541,50 @@ def studentSubjectTerm2Record(request, pk):
         obj.student.surname, obj.student.firstname, obj.student.lastname
     )
     return render(request, "student_term2_record.html", context)
+'''
 
+
+@method_decorator([login_required, teacher_required], name="dispatch")
+class Term2SubjectBSModalUpdateView(BSModalUpdateView):
+    model = Subject
+    form_class = SubjectTerm2UpdateBSModalForm
+    template_name = 'partialTerm2SubjectUpdate.html'
+    success_message = gettext_lazy('Subject score updated')
+
+    def form_valid(self, form):
+        total = (
+            form.instance.test1_term2
+            + form.instance.test2_term2
+            + form.instance.assignment1_term2
+            + form.instance.assignment2_term2
+            + form.instance.Exam_term2
+        )
+        form.instance.total_term2 = total
+        if total >= 70 and total <= 100:
+            form.instance.grade_term2 = "A"
+        elif total >= 60 and total <= 70:
+            form.instance.grade_term2 = "B"
+        elif total >= 50 and total <= 59:
+            form.instance.grade_term2 = "C"
+        elif total >= 40 and total <= 49:
+            form.instance.grade_term2 = "D"
+        else:
+            form.instance.grade_term1 = "E"
+        return super().form_valid(form)
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super(Term2SubjectBSModalUpdateView, self).get_context_data(**kwargs)
+        context['real_title'] = self.object.real_title
+        context["name"] = "{} {} {}".format(
+        self.object.student.surname, 
+        self.object.student.firstname, 
+        self.object.student.lastname)
+        return context
+    
+    def get_success_url(self):
+        stu_id = self.object.student.id
+        return reverse_lazy("student_subjects_term2", kwargs={'pk':stu_id})
 
 # Term3
 
@@ -578,7 +673,7 @@ class StudentRatingTerm3ListView(ListView):
         queryset = Rating.objects.filter(student=student, r_class=r_class, term=term)
         return queryset
 
-
+'''
 @login_required
 @teacher_required
 def studentSubjectTerm3Record(request, pk):
@@ -616,15 +711,65 @@ def studentSubjectTerm3Record(request, pk):
     )
 
     return render(request, "student_term3_record.html", context)
+'''
 
+@method_decorator([login_required, teacher_required], name="dispatch")
+class Term3SubjectBSModalUpdateView(BSModalUpdateView):
+    model = Subject
+    form_class = SubjectTerm3UpdateBSModalForm
+    template_name = 'partialTerm3SubjectUpdate.html'
+    success_message = gettext_lazy('Subject score updated')
 
+    def form_valid(self, form):
+        total = (
+            form.instance.test1_term1
+            + form.instance.test2_term3
+            + form.instance.assignment1_term3
+            + form.instance.assignment2_term3
+            + form.instance.Exam_term3
+        )
+        form.instance.total_term3 = total
+        if total >= 70 and total <= 100:
+            form.instance.grade_term3 = "A"
+        elif total >= 60 and total <= 70:
+            form.instance.grade_term3 = "B"
+        elif total >= 50 and total <= 59:
+            form.instance.grade_term3 = "C"
+        elif total >= 40 and total <= 49:
+            form.instance.grade_term3 = "D"
+        else:
+            form.instance.grade_term3 = "E"
+        return super().form_valid(form)
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super(Term3SubjectBSModalUpdateView, self).get_context_data(**kwargs)
+        context['real_title'] = self.object.real_title
+        context["name"] = "{} {} {}".format(
+        self.object.student.surname, 
+        self.object.student.firstname, 
+        self.object.student.lastname)
+        return context
+    
+    def get_success_url(self):
+        stu_id = self.object.student.id
+        return reverse_lazy("student_subjects_term3", kwargs={'pk':stu_id})
 # End term
 
 # Start Result
 
 
 def compile_class_result(request, clss_id, term_id):
+    user = request.user
+    teacher = Teacher.objects.get(user=user)
     clss = Class.objects.get(id=clss_id)
+    try:
+        FormMaster.objects.get(Teacher=teacher, f_class=clss)
+    except ObjectDoesNotExist:
+        raise PermissionDenied
+    else:
+        pass
+
     term = term_id
 
     # if result model exist update scores

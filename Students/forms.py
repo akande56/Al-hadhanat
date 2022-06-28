@@ -1,7 +1,7 @@
 # import datetime
 from django import forms
 from django.core.exceptions import ValidationError
-
+from bootstrap_modal_forms.forms  import BSModalModelForm # new
 # from django.db.models import fields
 # from crispy_forms.helper import FormHelper
 # from crispy_forms.bootstrap import Tab, TabHolder
@@ -152,7 +152,8 @@ class SessionForm(forms.ModelForm):
         """Meta definition for Sessionform."""
 
         model = Session
-        fields = "__all__"
+        fields = ['session','active']
+        
 
     def clean_session(self):
         session = self.cleaned_data.get("session")
@@ -163,15 +164,20 @@ class SessionForm(forms.ModelForm):
             raise ValidationError(
                 "So sorry, this session already exist in the database"
             )
-
         return session
 
     def save(self, commit=True, *args, **kwargs):
-        m = super(SessionForm, self).save(commit=False, *args, **kwargs)
-        m.save()
+        new_session = super(SessionForm, self).save(commit=False, *args, **kwargs)
+        pre_session = Session.objects.get(active=True)
+        pre_session.active = False
+        pre_session.save()
+        new_session.save()
         session = self.cleaned_data.get("session")
         for c in classes:
-            Class.objects.create(name="{}({})".format(c, session), session=m)
+            if c.startswith('s') | c.startswith('j'):
+                Class.objects.create(name="{}({})".format(c, session), session=new_session,secondary=True)
+            else:
+                Class.objects.create(name="{}({})".format(c, session), session=new_session,secondary=False)
 
         # adding students to classes and creating subjects for each class
         all_student = Student.objects.filter(admitted=True)
@@ -251,7 +257,8 @@ class SessionForm(forms.ModelForm):
                 cl = Class.objects.get(name=cl_name)
                 s.c_class = cl
                 s.save()
-        return m
+        return new_session
+
 
 
 class SubjectsForm(forms.ModelForm):
@@ -263,13 +270,27 @@ class SubjectsForm(forms.ModelForm):
         model = Subject
         fields = ["title"]
 
+# class SubjectTerm1UpdateForm(forms.ModelForm):
+#     """Form definition for SubjectUpdate."""
 
-class SubjectTerm1UpdateForm(forms.ModelForm):
-    """Form definition for SubjectUpdate."""
+#     class Meta:
+#         """Meta definition for SubjectUpdateform."""
 
+#         model = Subject
+#         fields = (
+#             "test1_term1",
+#             "test2_term1",
+#             "assignment1_term1",
+#             "assignment2_term1",
+#             "Exam_term1",
+#         )
+
+
+
+
+#New
+class SubjectTerm1UpdateBSModalForm(BSModalModelForm):
     class Meta:
-        """Meta definition for SubjectUpdateform."""
-
         model = Subject
         fields = (
             "test1_term1",
@@ -278,9 +299,13 @@ class SubjectTerm1UpdateForm(forms.ModelForm):
             "assignment2_term1",
             "Exam_term1",
         )
+        # widgets = {
+        #     'test1_term1': forms.TextInput(),
+        #     'test2_term1': forms.TextInput(),
+        # }
 
 
-class SubjectTerm2UpdateForm(forms.ModelForm):
+class SubjectTerm2UpdateBSModalForm(BSModalModelForm):
     """Form definition for SubjectUpdate."""
 
     class Meta:
@@ -296,7 +321,7 @@ class SubjectTerm2UpdateForm(forms.ModelForm):
         )
 
 
-class SubjectTerm3UpdateForm(forms.ModelForm):
+class SubjectTerm3UpdateBSModalForm(BSModalModelForm):
     """Form definition for SubjectUpdate."""
 
     class Meta:

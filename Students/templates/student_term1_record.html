@@ -8,6 +8,8 @@ Student | Record
 
 {% block content %}
 
+
+{% include "modal.html" %}
 {% if back_key %}
 <p class="badge badge-danger"><a class="text-light" href="{% url 'formmaster_students' back_key %}">Back to Class</a></p>
 {% endif %}
@@ -68,8 +70,11 @@ Student | Record
 
           {{ subject.grade_term1 }}
         </td>
+        
         <td>
-          <a href="{% url 'subject_record_term1' subject.pk %}">Edit</a>
+          <button  data-form-url="{% url 'subject_record_term1Modal' subject.pk %}" class="update-subject btn btn-primary" type="button" name="button">
+            <span class=""></span>Update
+        </button>
         </td>
 
       </tr>
@@ -106,7 +111,7 @@ Student | Record
   <a class="fas fa-edit" href=" {% url 'student_term1_rating_list' term=1 clss_id=back_key stu_id=view.kwargs.pk %} ">Update Rating</a>
   {% endif %}
 
-  {% if form %}
+  <!-- {% if form %}
   <div>
     <table class="table table-bordered">
       <thead>
@@ -169,6 +174,26 @@ Student | Record
   </div>
 
 
-  {% endif %}
+  {% endif %} -->
 </div>
 {% endblock content %}
+
+{% block extra_header %}
+  <script defer>
+    $(function (){
+
+      function updateSubjectModalForm() {
+            $(".update-subject").each(function () {
+              $(this).modalForm({
+                formURL: $(this).data("form-url"),
+                modalID : "#create-modal",
+                
+              });
+            });
+          }
+    updateSubjectModalForm();
+
+
+    });  
+  </script>
+{% endblock extra_header %}

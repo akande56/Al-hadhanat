@@ -26,6 +26,9 @@ from .views import (  # ViewTerm1,; pWA; offline,
     StudentSubjectTerm3ListView,
     StudentToSubjectsCreateView,
     StudentUpdateView,
+    Term1SubjectBSModalUpdateView,
+    Term2SubjectBSModalUpdateView,
+    Term3SubjectBSModalUpdateView,
     compile_class_result,
     dashboard,
     get_position,
@@ -34,9 +37,7 @@ from .views import (  # ViewTerm1,; pWA; offline,
     resultGetSession,
     student_delete_view,
     student_single_addSubject,
-    studentSubjectTerm1Record,
-    studentSubjectTerm2Record,
-    studentSubjectTerm3Record,
+    
 )
 
 urlpatterns = [
@@ -68,10 +69,12 @@ urlpatterns = [
         StudentSubjectTerm1ListView.as_view(),
         name="student_subjects_term1",
     ),
+    
+    # new
     path(
-        "formmaster/class/students/subjects/record/term1/edit/<int:pk>",
-        studentSubjectTerm1Record,
-        name="subject_record_term1",
+       "formmaster/class/students/subjects/record/term1/editModal/<int:pk>",
+       Term1SubjectBSModalUpdateView.as_view(),
+       name="subject_record_term1Modal"
     ),
     path(
         "formmaster/class/students/term1/rating/<int:term>/<int:clss_id>/<int:stu_id>",
@@ -94,9 +97,9 @@ urlpatterns = [
         name="student_subjects_term2",
     ),
     path(
-        "formmaster/class/students/subjects/record/term2/edit/<int:pk>",
-        studentSubjectTerm2Record,
-        name="subject_record_term2",
+        "formmaster/class/students/subjects/record/term2/editModal/<int:pk>",
+        Term2SubjectBSModalUpdateView.as_view(),
+        name="subject_record_term2Modal",
     ),
     path(
         "formmaster/class/students/term2/rating/<int:term>/<int:clss_id>/<int:stu_id>",
@@ -119,9 +122,9 @@ urlpatterns = [
         name="student_subjects_term3",
     ),
     path(
-        "formmaster/class/students/subjects/record/term3/edit/<int:pk>",
-        studentSubjectTerm3Record,
-        name="subject_record_term3",
+        "formmaster/class/students/subjects/record/term3/editModal/<int:pk>",
+        Term3SubjectBSModalUpdateView.as_view(),
+        name="subject_record_term3Modal",
     ),
     path(
         "formmaster/class/students/term3/rating/<int:term>/<int:clss_id>/<int:stu_id>",

@@ -147,8 +147,13 @@ class TribeAdmin(admin.ModelAdmin):
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     """Admin View for Session"""
-
     form = SessionForm
+    list_display = [
+        'session',
+        'active',
+        'create_date',
+    ]
+    
 
 
 @admin.register(FormMaster)
