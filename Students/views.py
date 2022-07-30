@@ -752,7 +752,7 @@ class Term3SubjectBSModalUpdateView(BSModalUpdateView):
 
     def form_valid(self, form):
         total = (
-            form.instance.test1_term1
+            form.instance.test1_term3
             + form.instance.test2_term3
             + form.instance.assignment1_term3
             + form.instance.assignment2_term3
