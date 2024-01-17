@@ -15,7 +15,7 @@ django-allauth==0.44.0  # https://github.com/pennersr/django-allauth
 django-crispy-forms==1.11.2  # https://github.com/django-crispy-forms/django-crispy-forms
 django-redis==4.12.1  # https://github.com/jazzband/django-redis
 six==1.15.0
-reportlab==3.6.1
+# reportlab==3.6.1
 #Pillow==8.2.0
 #numpy==1.19.4
 imagesize==1.2.0
@@ -33,3 +33,4 @@ webencodings==0.5.1
 xhtml2pdf==0.2.5
 django-pwa==1.0.10
 django-bootstrap-modal-forms==2.2.0
+django-ckeditor==6.3.2
