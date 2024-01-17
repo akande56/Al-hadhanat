@@ -10,9 +10,9 @@ from django.urls import reverse_lazy as _
 from django.urls.base import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
-from django_xhtml2pdf.utils import generate_pdf
+# from django_xhtml2pdf.utils import generate_pdf
 from PyPDF2 import PdfFileMerger
 from bootstrap_modal_forms.generic import BSModalUpdateView
 from Teachers.models import Teacher
@@ -27,6 +27,7 @@ from .forms import (
     SubjectTerm1UpdateBSModalForm,
     SubjectTerm2UpdateBSModalForm,
     SubjectTerm3UpdateBSModalForm,
+    LessonNoteForm,
 )
 from .models import (
     LGA, 
@@ -37,6 +38,7 @@ from .models import (
     Session, 
     Student, 
     Subject,
+    LessonNote,
 )
 # from io import BytesIO
 # from typing import KeysView
@@ -214,6 +216,8 @@ class FormmasterAllSubjectsListView(ListView):
         return queryset
 
 
+
+
 @login_required
 @teacher_required
 def DeleteSubject(request, subjt_id):
@@ -235,19 +239,22 @@ class FormmastStudentCreateView(SuccessMessageMixin, CreateView):
     model = Student
     template_name = "formmaster_add_student.html"
     form_class = FormMasterStudentForm
-    success_message = "Student created and added to class"
-
+    success_message = "New Student added to class"
     def form_valid(self, form):
         clss_id = self.kwargs.get("pk")
         clss = Class.objects.get(id=clss_id)
         form.instance.c_class = clss
         form.instance.admitted = True
         return super().form_valid(form)
-
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
     def get_success_url(self):
         return _("formmaster_students", kwargs={"pk": self.kwargs.get("pk")})
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pk'] = self.kwargs.get("pk")
+        return context
 
 
 # Term 1
@@ -1024,162 +1031,162 @@ class resultGetClass(FormView):
             )
 
 
-class PdfResponseMixin(
-    object,
-):
-    def write_pdf(
-        self,
-        file_object,
-    ):
-        context = self.get_context_data()
-        template = self.get_template_names()[0]
-        generate_pdf(template, file_object=file_object, context=context)
+# class PdfResponseMixin(
+#     object,
+# ):
+#     def write_pdf(
+#         self,
+#         file_object,
+#     ):
+#         context = self.get_context_data()
+#         template = self.get_template_names()[0]
+#         generate_pdf(template, file_object=file_object, context=context)
 
-    def render_to_response(self, context, **response_kwargs):
-        resp = HttpResponse(content_type="application/pdf")
-        self.write_pdf(resp)
-        return resp
-
-
-class CoverPdfResponseMixin(
-    PdfResponseMixin,
-):
-    cover_pdf = None
-
-    def render_to_response(self, context, **response_kwargs):
-        merger = PdfFileMerger()
-        merger.append(open(self.cover_pdf, "rb"))
-
-        pdf_fo = io.BytesIO()
-        self.write_pdf(pdf_fo)
-        merger.append(pdf_fo)
-
-        resp = HttpResponse(content_type="application/pdf")
-        merger.write(resp)
-        return resp
+#     def render_to_response(self, context, **response_kwargs):
+#         resp = HttpResponse(content_type="application/pdf")
+#         self.write_pdf(resp)
+#         return resp
 
 
-class PrintStudentForm(SuccessMessageMixin, PdfResponseMixin, DetailView):
-    model = Student
-    template_name = "form_pdf.html"
-    context_object_name = "student"
-    success_message = _("form submitted, check your downloaded file")
+# class CoverPdfResponseMixin(
+#     PdfResponseMixin,
+# ):
+#     cover_pdf = None
+
+#     def render_to_response(self, context, **response_kwargs):
+#         merger = PdfFileMerger()
+#         merger.append(open(self.cover_pdf, "rb"))
+
+#         pdf_fo = io.BytesIO()
+#         self.write_pdf(pdf_fo)
+#         merger.append(pdf_fo)
+
+#         resp = HttpResponse(content_type="application/pdf")
+#         merger.write(resp)
+#         return resp
 
 
-class PrintStudentResultTerm1(ListView):
-    model = Subject
-    template_name = "print_result_term1.html"
-    context_object_name = "subjects"
-
-    def get_queryset(self):
-        queryset = super(PrintStudentResultTerm1, self).get_queryset()
-        stud_id = self.kwargs.get("stu_id")
-        clss_id = self.kwargs.get("class_id")
-        student = Student.objects.get(id=stud_id)
-        c_class = Class.objects.get(id=clss_id)
-        queryset = Subject.objects.filter(student=student, r_class=c_class).order_by(
-            "real_title"
-        )
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super(PrintStudentResultTerm1, self).get_context_data(**kwargs)
-        stud_id = self.kwargs.get("stu_id")
-        clss_id = self.kwargs.get("class_id")
-        student = Student.objects.get(id=stud_id)
-        c_class = Class.objects.get(id=clss_id)
-        totall = Result.objects.get(
-            student=student, result_class=c_class, result_term=1
-        )
-        try:
-            rating = Rating.objects.get(student=student, r_class=c_class, term=1)
-            context["rating"] = rating
-        except Rating.DoesNotExist:
-            pass
-
-        context["totall_score"] = totall.overrall_totall
-        context["position"] = totall.position
-        context["average"] = totall.average
-        context["totall_student"] = totall.totall_student
-        context["student"] = student
-        context["class"] = c_class
-        return context
+# class PrintStudentForm(SuccessMessageMixin, PdfResponseMixin, DetailView):
+#     model = Student
+#     template_name = "form_pdf.html"
+#     context_object_name = "student"
+#     success_message = _("form submitted, check your downloaded file")
 
 
-class PrintStudentResultTerm2(ListView):
-    model = Subject
-    template_name = "print_result_term2.html"
-    context_object_name = "subjects"
+# class PrintStudentResultTerm1(ListView):
+#     model = Subject
+#     template_name = "print_result_term1.html"
+#     context_object_name = "subjects"
 
-    def get_queryset(self):
-        queryset = super(PrintStudentResultTerm2, self).get_queryset()
-        stud_id = self.kwargs.get("stu_id")
-        clss_id = self.kwargs.get("class_id")
-        student = Student.objects.get(id=stud_id)
-        c_class = Class.objects.get(id=clss_id)
-        queryset = Subject.objects.filter(student=student, r_class=c_class)
-        return queryset
+#     def get_queryset(self):
+#         queryset = super(PrintStudentResultTerm1, self).get_queryset()
+#         stud_id = self.kwargs.get("stu_id")
+#         clss_id = self.kwargs.get("class_id")
+#         student = Student.objects.get(id=stud_id)
+#         c_class = Class.objects.get(id=clss_id)
+#         queryset = Subject.objects.filter(student=student, r_class=c_class).order_by(
+#             "real_title"
+#         )
+#         return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super(PrintStudentResultTerm2, self).get_context_data(**kwargs)
-        stud_id = self.kwargs.get("stu_id")
-        clss_id = self.kwargs.get("class_id")
-        student = Student.objects.get(id=stud_id)
-        c_class = Class.objects.get(id=clss_id)
-        totall = Result.objects.get(
-            student=student, result_class=c_class, result_term=2
-        )
-        try:
-            rating = Rating.objects.get(student=student, r_class=c_class, term=2)
-            context["rating"] = rating
-        except Rating.DoesNotExist:
-            pass
+#     def get_context_data(self, **kwargs):
+#         context = super(PrintStudentResultTerm1, self).get_context_data(**kwargs)
+#         stud_id = self.kwargs.get("stu_id")
+#         clss_id = self.kwargs.get("class_id")
+#         student = Student.objects.get(id=stud_id)
+#         c_class = Class.objects.get(id=clss_id)
+#         totall = Result.objects.get(
+#             student=student, result_class=c_class, result_term=1
+#         )
+#         try:
+#             rating = Rating.objects.get(student=student, r_class=c_class, term=1)
+#             context["rating"] = rating
+#         except Rating.DoesNotExist:
+#             pass
 
-        context["totall_score"] = totall.overrall_totall
-        context["position"] = totall.position
-        context["average"] = totall.average
-        context["totall_student"] = totall.totall_student
-        context["student"] = student
-        context["class"] = c_class
-        return context
+#         context["totall_score"] = totall.overrall_totall
+#         context["position"] = totall.position
+#         context["average"] = totall.average
+#         context["totall_student"] = totall.totall_student
+#         context["student"] = student
+#         context["class"] = c_class
+#         return context
 
 
-class PrintStudentResultTerm3(ListView):
-    model = Subject
-    template_name = "print_result_term3.html"
-    context_object_name = "subjects"
+# class PrintStudentResultTerm2(ListView):
+#     model = Subject
+#     template_name = "print_result_term2.html"
+#     context_object_name = "subjects"
 
-    def get_queryset(self):
-        queryset = super(PrintStudentResultTerm3, self).get_queryset()
-        stud_id = self.kwargs.get("stu_id")
-        clss_id = self.kwargs.get("class_id")
-        student = Student.objects.get(id=stud_id)
-        c_class = Class.objects.get(id=clss_id)
-        queryset = Subject.objects.filter(student=student, r_class=c_class)
-        return queryset
+#     def get_queryset(self):
+#         queryset = super(PrintStudentResultTerm2, self).get_queryset()
+#         stud_id = self.kwargs.get("stu_id")
+#         clss_id = self.kwargs.get("class_id")
+#         student = Student.objects.get(id=stud_id)
+#         c_class = Class.objects.get(id=clss_id)
+#         queryset = Subject.objects.filter(student=student, r_class=c_class)
+#         return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super(PrintStudentResultTerm3, self).get_context_data(**kwargs)
-        stud_id = self.kwargs.get("stu_id")
-        clss_id = self.kwargs.get("class_id")
-        student = Student.objects.get(id=stud_id)
-        c_class = Class.objects.get(id=clss_id)
-        totall = Result.objects.get(
-            student=student, result_class=c_class, result_term=3
-        )
-        try:
-            rating = Rating.objects.get(student=student, r_class=c_class, term=3)
-            context["rating"] = rating
-        except Rating.DoesNotExist:
-            pass
+#     def get_context_data(self, **kwargs):
+#         context = super(PrintStudentResultTerm2, self).get_context_data(**kwargs)
+#         stud_id = self.kwargs.get("stu_id")
+#         clss_id = self.kwargs.get("class_id")
+#         student = Student.objects.get(id=stud_id)
+#         c_class = Class.objects.get(id=clss_id)
+#         totall = Result.objects.get(
+#             student=student, result_class=c_class, result_term=2
+#         )
+#         try:
+#             rating = Rating.objects.get(student=student, r_class=c_class, term=2)
+#             context["rating"] = rating
+#         except Rating.DoesNotExist:
+#             pass
 
-        context["totall_score"] = totall.overrall_totall
-        context["position"] = totall.position
-        context["average"] = totall.average
-        context["totall_student"] = totall.totall_student
-        context["student"] = student
-        context["class"] = c_class
-        return context
+#         context["totall_score"] = totall.overrall_totall
+#         context["position"] = totall.position
+#         context["average"] = totall.average
+#         context["totall_student"] = totall.totall_student
+#         context["student"] = student
+#         context["class"] = c_class
+#         return context
+
+
+# class PrintStudentResultTerm3(ListView):
+#     model = Subject
+#     template_name = "print_result_term3.html"
+#     context_object_name = "subjects"
+
+#     def get_queryset(self):
+#         queryset = super(PrintStudentResultTerm3, self).get_queryset()
+#         stud_id = self.kwargs.get("stu_id")
+#         clss_id = self.kwargs.get("class_id")
+#         student = Student.objects.get(id=stud_id)
+#         c_class = Class.objects.get(id=clss_id)
+#         queryset = Subject.objects.filter(student=student, r_class=c_class)
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         context = super(PrintStudentResultTerm3, self).get_context_data(**kwargs)
+#         stud_id = self.kwargs.get("stu_id")
+#         clss_id = self.kwargs.get("class_id")
+#         student = Student.objects.get(id=stud_id)
+#         c_class = Class.objects.get(id=clss_id)
+#         totall = Result.objects.get(
+#             student=student, result_class=c_class, result_term=3
+#         )
+#         try:
+#             rating = Rating.objects.get(student=student, r_class=c_class, term=3)
+#             context["rating"] = rating
+#         except Rating.DoesNotExist:
+#             pass
+
+#         context["totall_score"] = totall.overrall_totall
+#         context["position"] = totall.position
+#         context["average"] = totall.average
+#         context["totall_student"] = totall.totall_student
+#         context["student"] = student
+#         context["class"] = c_class
+#         return context
 
 
 def dashboard(request):
@@ -1189,3 +1196,63 @@ def dashboard(request):
 # PWA
 def offlined(request):
     return render(request, "offlined.html")
+
+
+
+# LESSONNOTE
+
+@login_required
+def lesson_note_create_view(request, class_id):
+    class_instance = get_object_or_404(Class, pk=class_id)
+
+    if request.method == 'POST':
+        form = LessonNoteForm(request.POST)
+        if form.is_valid():
+            lesson_note = form.save(commit=False)
+            lesson_note.class_level = class_instance  
+            lesson_note.teacher = Teacher.objects.get(user = request.user)
+            lesson_note.session = class_instance.session
+            lesson_note.save()
+            return redirect('lesson_notes_list', class_id=class_id)
+        else:
+            print(form.errors)  
+    else:
+        form = LessonNoteForm()
+
+    return render(request, 'create_lesson_note.html', {'form': form, 'class_instance': class_instance})
+
+
+
+@login_required
+def lesson_notes_list_view(request, class_id):
+    class_instance = get_object_or_404(Class, pk=class_id)
+    lesson_notes = LessonNote.objects.filter(class_level=class_instance)
+    form = LessonNoteForm()
+    return render(request, 'lesson_notes_list.html', {'class_instance': class_instance, 'lesson_notes': lesson_notes,'form':form})
+
+
+@login_required
+def edit_lesson_note_view(request, lesson_note_id):
+    lesson_note = get_object_or_404(LessonNote, pk=lesson_note_id)
+
+    if request.method == 'POST':
+        form = LessonNoteForm(request.POST, instance=lesson_note)
+        if form.is_valid():
+            form.save()
+            return redirect('lesson_notes_list', class_id=lesson_note.class_level.pk)
+    else:
+        form = LessonNoteForm(instance=lesson_note)
+
+    return render(request, 'edit_lesson_note.html', {'form': form, 'lesson_note': lesson_note})
+
+
+class LessonNoteDeleteView(DeleteView):
+    model = LessonNote
+    template_name = 'delete_lesson_note.html'
+    def get_success_url(self):
+        class_id = self.object.class_level.pk  # Assuming your LessonNote model has a class_id field
+        return reverse_lazy('lesson_notes_list', kwargs={'class_id': class_id})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['lesson_note'] = self.get_object()
+        return context

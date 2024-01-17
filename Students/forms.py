@@ -1,12 +1,22 @@
 # import datetime
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from bootstrap_modal_forms.forms  import BSModalModelForm # new
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 # from django.db.models import fields
 # from crispy_forms.helper import FormHelper
 # from crispy_forms.bootstrap import Tab, TabHolder
 # from crispy_forms.layout import (Layout, Field, ButtonHolder, Submit,Row,Column)
-from .models import LGA, Class, Rating, Session, Student, Subject
+from .models import (
+    LGA, 
+    Class, 
+    Rating,
+     Session, 
+     Student, 
+     Subject, 
+    LessonNote,
+)
 
 # from django.db import models
 
@@ -168,9 +178,14 @@ class SessionForm(forms.ModelForm):
 
     def save(self, commit=True, *args, **kwargs):
         new_session = super(SessionForm, self).save(commit=False, *args, **kwargs)
-        pre_session = Session.objects.get(active=True)
-        pre_session.active = False
-        pre_session.save()
+        try:
+            with transaction.atomic():
+                pre_session = Session.objects.get(active=True)
+                pre_session.active = False
+                pre_session.save()
+        except Session.DoesNotExist:
+            # Handle the case when no active session is found
+            print("No active session found.")
         new_session.save()
         session = self.cleaned_data.get("session")
         for c in classes:
@@ -379,8 +394,6 @@ class ResultClassForm(forms.ModelForm):
 
 
 # Student Ratings
-
-
 class RatingStudentTermForm(forms.ModelForm):
     """Form definition for RatingStudentTerm1."""
 
@@ -398,3 +411,17 @@ class RatingStudentTermForm(forms.ModelForm):
             "class_teacher_remark",
             "principal_remark",
         )
+
+
+
+#LESSON PLAN
+class LessonNoteForm(forms.ModelForm):
+    class Meta:
+        model = LessonNote
+        fields = ['lesson_date', 'subject', 'topic', 'objectives', 'previous_knowledge',
+                  'instructional_materials', 'introduction', 'lesson_content', 'teaching_methodology', 'assessment',
+                  'conclusion', 'homework_assignment','term']
+        widgets = {
+            'lesson_content': CKEditorUploadingWidget(),
+            'lesson_date': forms.DateInput(attrs={'type': 'date'}),
+        }

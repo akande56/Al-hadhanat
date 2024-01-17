@@ -1,0 +1,15 @@
+<!-- delete_lesson_note.html -->
+
+{% extends "dashboard.html" %}
+
+{% block content %}
+  <h2>Confirm Deletion</h2>
+  <p>Are you sure you want to delete the lesson note for "{{ lesson_note }}"?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, delete it</button>
+  </form>
+
+  <a href="#" onclick="window.history.back();" class="btn btn-primary mt-4">Cancel</a>
+{% endblock %}

@@ -6,10 +6,10 @@ from .views import (  # ViewTerm1,; pWA; offline,
     FormmasterAllSubjectsListView,
     FormmasterClassListView,
     FormmastStudentCreateView,
-    PrintStudentForm,
-    PrintStudentResultTerm1,
-    PrintStudentResultTerm2,
-    PrintStudentResultTerm3,
+    # PrintStudentForm,
+    # PrintStudentResultTerm1,
+    # PrintStudentResultTerm2,
+    # PrintStudentResultTerm3,
     StudentCreateView,
     StudentDetailView,
     StudentRatingTerm1CreateView,
@@ -37,7 +37,10 @@ from .views import (  # ViewTerm1,; pWA; offline,
     resultGetSession,
     student_delete_view,
     student_single_addSubject,
-    
+    lesson_note_create_view,
+    lesson_notes_list_view,
+    edit_lesson_note_view,
+    LessonNoteDeleteView,
 )
 
 urlpatterns = [
@@ -45,10 +48,14 @@ urlpatterns = [
     path("add_student", StudentCreateView, name="admit_student"),
     path("ajax/load-lga/", load_lga, name="ajax_load_lga"),
     path("dashboard", dashboard, name="dashboard"),
-    path("printStudentForm/<int:pk>", PrintStudentForm.as_view(), name="studentform"),
+    # path("printStudentForm/<int:pk>", PrintStudentForm.as_view(), name="studentform"),
     path(
         "formmaster/class", FormmasterClassListView.as_view(), name="formmaster_class"
     ),
+    path('formmaster/class/new_note/<int:class_id>', lesson_note_create_view, name='lesson_note_create'),
+    path('lesson-notes/<int:class_id>/', lesson_notes_list_view, name='lesson_notes_list'),
+    path('lesson-notes/<int:lesson_note_id>/edit/', edit_lesson_note_view, name='edit_lesson_notes'),
+    path('lesson_note/<int:pk>/delete/', LessonNoteDeleteView.as_view(), name='delete_lesson_note'),
     path(
         "formmaster/class/subjects/<int:class_pk>",
         FormmasterAllSubjectsListView.as_view(),
@@ -143,26 +150,26 @@ urlpatterns = [
     ),  # new
     path("resultGetSession/", resultGetSession, name="result_session"),
     path("resultGetClass/<int:pk>", resultGetClass.as_view(), name="result_class"),
-    path(
-        "print_result/term1/<int:stu_id>/<int:class_id>",
-        PrintStudentResultTerm1.as_view(),
-        name="print_result_term1",
-    ),
+    # path(
+    #     "print_result/term1/<int:stu_id>/<int:class_id>",
+    #     PrintStudentResultTerm1.as_view(),
+    #     name="print_result_term1",
+    # ),
     # path(
     #     "view_result/<int:class_id>/<int:stu_id>",
     #     ViewTerm1.as_view(),  # just opening the bracket solved the as_view() takes 1 postional argumemt
     #     name="view_result_term1",
     # ),
-    path(
-        "print_result/term2/<int:stu_id>/<int:class_id>",
-        PrintStudentResultTerm2.as_view(),
-        name="print_result_term2",
-    ),
-    path(
-        "print_result/term3/<int:stu_id>/<int:class_id>",
-        PrintStudentResultTerm3.as_view(),
-        name="print_result_term3",
-    ),
+    # path(
+    #     "print_result/term2/<int:stu_id>/<int:class_id>",
+    #     PrintStudentResultTerm2.as_view(),
+    #     name="print_result_term2",
+    # ),
+    # path(
+    #     "print_result/term3/<int:stu_id>/<int:class_id>",
+    #     PrintStudentResultTerm3.as_view(),
+    #     name="print_result_term3",
+    # ),
     path(
         "add_single_student_subject/<int:pk>",
         student_single_addSubject,

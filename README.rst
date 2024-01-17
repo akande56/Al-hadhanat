@@ -1,6 +1,7 @@
 HadanatHighSchool
 =================
 
+postgresql://postgres:[YOUR-PASSWORD]@db.lusyquonmdgmsxjghotp.supabase.co:5432/postgres
 Hadanat High School Website
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter

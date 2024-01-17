@@ -79,6 +79,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+     'ckeditor',
 ]
 
 LOCAL_APPS = [
@@ -313,3 +314,7 @@ PWA_APP_SPLASH_SCREEN = [
 ]
 PWA_APP_DIR = "ltr"
 PWA_APP_LANG = "en-US"
+
+#CKEDITOR
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'

@@ -1,8 +1,6 @@
-
 from django.db import models
-
+from ckeditor.fields import RichTextField
 from Teachers.models import Teacher
-
 
 class Session(models.Model):
     """Model definition for Session."""
@@ -300,3 +298,31 @@ class Rating(models.Model):
     def __str__(self):
         """Unicode representation of Rating."""
         return str(self.student.firstname)
+
+
+class LessonNote(models.Model):
+    TERM_CHOICES = [
+        (1, 'Term 1'),
+        (2, 'Term 2'),
+        (3, 'Term 3'),
+    ]
+    term = models.IntegerField(choices=TERM_CHOICES)
+    teacher = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING) #
+    class_level = models.ForeignKey(Class, on_delete=models.CASCADE) #
+    session = models.ForeignKey(Session, on_delete=models.CASCADE) #
+    lesson_date = models.DateField() #
+    subject = models.CharField(max_length=100) #
+    topic = models.CharField(max_length=200) #
+    objectives = RichTextField() #
+    previous_knowledge = RichTextField() #
+    instructional_materials = models.TextField() #
+    introduction = RichTextField() #
+    lesson_content = RichTextField() #
+    teaching_methodology = models.TextField() #
+    assessment = RichTextField()
+    conclusion = RichTextField()
+    homework_assignment = RichTextField()
+
+
+    def __str__(self):
+        return f"{self.teacher.firstname} - {self.subject} - {self.topic}"

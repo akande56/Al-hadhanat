@@ -6,11 +6,9 @@
 
 <!-- <div class="container"> -->
 <div class="m-0 p-0">
-  <h3 class="mb-3">Class Management</h3>
+  <h3 class="mb-3">Class Record</h3>
 
   {% for c in class %}
-
-  
   {% if c.secondary %}
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
@@ -34,10 +32,12 @@
                     <div class="text">
                       <p>Record</p>
                       <ul class="list-group" style="list-style: none;">
-                        <li><p><span class="statbox list-group-item"><a href="{% url 'formmaster_students' c.pk %}" >Class Room </a></span></p></li>
-                        <li><p><span class="statbox list-group-item"><a href=" {% url 'class_add_student' c.pk %} ">Add Student</a></span</p></li>
-                        <li><p><span class="statbox list-group-item"><a href=" {% url 'add_class' c.pk %} ">Add subject</a></span></p></li>
-                        <li><p><span class="statbox list-group-item"><a href=" {% url 'class_all_subjects' c.pk %} ">All subject</a></span></p></li>
+                        <li><p><span class="statbox list-group-item"><a href="{% url 'formmaster_students' c.pk %}" >Class</a></span></p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'class_add_student' c.pk %} ">New Student</a></span</p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'add_class' c.pk %} ">New subject</a></span></p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'class_all_subjects' c.pk %} ">Subjects</a></span></p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'lesson_note_create' c.pk %} ">New lesson plan</a></span></p></li>
+                        <li><p><span class="statbox list-group-item"><a href=" {% url 'lesson_notes_list' c.pk %} ">Lesson Notes</a></span></p></li>
                         </ul>
                     </div>
                   </div>
