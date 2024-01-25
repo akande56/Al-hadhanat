@@ -1,169 +1,180 @@
-{% extends "dashboard.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% load myfilter %}
 {% block content %}
-<h3 class="bg-theme-colored text-center text-success ">Student Application Form </h3>
-<div>
-    <form method="post" id="studentForm" data-lga-url="{% url 'ajax_load_lga' %}" novalidate
-      action="{% url 'simple_add_student' %}" class="needs-validation mb-0 bg-silver-light" enctype="multipart/form-data">
+<div class="container position-relative p-0 mt-90" style="max-width: 1000px;">
+    <h3 class="bg-theme-colored text-center text-success ">Student Application Form </h3>
+        <div class="section-content p-30">
+            <div class="row">
+                <div class="col-md-12">
 
-      {% csrf_token %}
-      <h3 class="text-success">Bio Data</h3>
+                    <div>
+                        <form method="post" id="studentForm" data-lga-url="{% url 'ajax_load_lga' %}" novalidate
+                            action="{% url 'simple_add_student' %}" class="needs-validation mb-0 bg-silver-light"
+                            enctype="multipart/form-data">
 
-      <div class="form-row">
-        <div class="form-group col-md-3  ">
-            <p>{{ form.roll_number.label_tag }}</p>
-            {{form.roll_number|addclass:'form-control'}}
-            <span class="text-danger"> {{ form.roll_number.errors }}</span>
-          </div>
-      </div>
+                            {% csrf_token %}
+                            <h3 class="text-success">Bio Data</h3>
 
-      <div class="form-row">
-        <div class="form-group  col-md-3  mt-5">
-          <p>{{ form.firstname.label_tag }}</p>
-          {{form.firstname|addclass:'form-control'}}
-          <span class="text-danger">{{ form.firstname.errors }}</span>
-        </div>
-        <div class="form-group col-md-3  mt-5">
-          <p>{{ form.surname.label_tag }}</p>
-          {{form.surname|addclass:'form-control'}}
-          <span class="text-danger"> {{ form.surname.errors }}</span>
-        </div>
-        <div class="form-group col-md-3 mt-5">
-          <p>{{ form.lastname.label_tag }}</p>
-          {{ form.lastname|addclass:'form-control' }}
-          <span class="text-danger">{{ form.lastname.errors }}</span>
-        </div>
-        <div class="form-group col-md-3 mt-5 ">
-          <p>{{ form.date_of_birth.label_tag }}</p>
-          {{ form.date_of_birth|addclass:'form-control' }}
-          <span class="text-danger">{{ form.date_of_birth.errors }}</span>
-        </div>
-      </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3  ">
+                                    <p>{{ form.roll_number.label_tag }}</p>
+                                    {{form.roll_number|addclass:'form-control'}}
+                                    <span class="text-danger"> {{ form.roll_number.errors }}</span>
+                                </div>
+                            </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <p> {{ form.sex.label_tag }}</p>
-          {{ form.sex|addclass:'form-control' }}
-          <span class="text-danger">{{ form.sex.errors }}</span>
-        </div>
-      </div>
+                            <div class="form-row">
+                                <div class="form-group  col-md-3  mt-5">
+                                    <p>{{ form.firstname.label_tag }}</p>
+                                    {{form.firstname|addclass:'form-control'}}
+                                    <span class="text-danger">{{ form.firstname.errors }}</span>
+                                </div>
+                                <div class="form-group col-md-3  mt-5">
+                                    <p>{{ form.surname.label_tag }}</p>
+                                    {{form.surname|addclass:'form-control'}}
+                                    <span class="text-danger"> {{ form.surname.errors }}</span>
+                                </div>
+                                <div class="form-group col-md-3 mt-5">
+                                    <p>{{ form.lastname.label_tag }}</p>
+                                    {{ form.lastname|addclass:'form-control' }}
+                                    <span class="text-danger">{{ form.lastname.errors }}</span>
+                                </div>
+                                <div class="form-group col-md-3 mt-5 ">
+                                    <p>{{ form.date_of_birth.label_tag }}</p>
+                                    {{ form.date_of_birth|addclass:'form-control' }}
+                                    <span class="text-danger">{{ form.date_of_birth.errors }}</span>
+                                </div>
+                            </div>
 
-      <h3 class="mb-5 mt-5 text-success">Guardian</h3>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <p>{{ form.phone.label_tag }}</p>
-          {{ form.phone|addclass:'form-control' }}
-          <span class="text-danger"> {{form.phone.errors}} </span>
-        </div>
-      </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <p> {{ form.sex.label_tag }}</p>
+                                    {{ form.sex|addclass:'form-control' }}
+                                    <span class="text-danger">{{ form.sex.errors }}</span>
+                                </div>
+                            </div>
+
+                            <h3 class="mb-5 mt-5 text-success">Guardian</h3>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <p>{{ form.phone.label_tag }}</p>
+                                    {{ form.phone|addclass:'form-control' }}
+                                    <span class="text-danger"> {{form.phone.errors}} </span>
+                                </div>
+                            </div>
 
 
-      <h3 class="mb-5 mt-5 text-success">Primary Section</h3>
-      <div class="form-row">
-        <div class="form-group col-md-1">
-          <p>{{ form.pp.label_tag }}</p>
-          {{ form.pp|addclass:'form-control' }}
-          <span class="text-danger">{{form.pp.errors}}</span>
-        </div>
-        <div class="form-group col-md-1">
-          <p>{{ form.nus1.label_tag }}</p>
-          {{ form.nus1|addclass:'form-control' }}
-          <span class="text-danger">{{form.nus1.errors}}</span>
-        </div>
-        <div class="form-group col-md-1">
-          <p>{{ form.nus2.label_tag }}</p>
-          {{ form.nus2|addclass:'form-control' }}
-          <span class="text-danger">{{form.nus2.errors}}</span>
-        </div>
-        <div class="form-group col-md-1">
-          <p>{{ form.nus3.label_tag }}</p>
-          {{ form.nus1|addclass:'form-control' }}
-          <span class="text-danger">{{form.nus3.errors}}</span>
-        </div>
-        <div class="form-group col-md-1">
-          <p>Pri 1</p>
-          {{ form.primary1|addclass:'form-control' }}
-          <span class="text-danger">{{form.primary1.errors}}</span>
-        </div>
-        <div class="form-group col-md-1">
-          <!-- <p>{{ form.primary2.label_tag }}</p> -->
-          <p>Pri 2</p>
-          {{ form.primary2|addclass:'form-control' }}
-          <span class="text-danger">{{form.primary2.errors}}</span>
-        </div> <div class="form-group col-md-1">
-          <!-- <p>{{ form.primary3.label_tag }}</p> -->
-          <p>Pri 3</p>
-          {{ form.primary3|addclass:'form-control' }}
-          <span class="text-danger">{{form.primary3.errors}}</span>
-        </div>
-        <div class="form-group col-md-1">
-          <!-- <p>{{ form.primary4.label_tag }}</p> -->
-          <p>Pri 4</p>
-          {{ form.primary4|addclass:'form-control' }}
-          <span class="text-danger">{{form.primary4.errors}}</span>
-        </div>
-        <div class="form-group col-md-1">
-          <!-- <p>{{ form.primary5.label_tag }}</p> -->
-          <p>Pri 5</p>
-          {{ form.primary5|addclass:'form-control' }}
-          <span class="text-danger">{{form.primary5.errors}}</span>
-        </div>
-    </div>
+                            <h3 class="mb-5 mt-5 text-success">Primary Section</h3>
+                            <div class="form-row">
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.pp.label_tag }}</p>
+                                    {{ form.pp|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.pp.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.nus1.label_tag }}</p>
+                                    {{ form.nus1|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.nus1.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.nus2.label_tag }}</p>
+                                    {{ form.nus2|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.nus2.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.nus3.label_tag }}</p>
+                                    {{ form.nus1|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.nus3.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p> {{form.primary1.label_tag}} </p>
+                                    {{ form.primary1|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.primary1.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.primary2.label_tag }}</p>
+                                    <!-- <p>Pri 2</p> -->
+                                    {{ form.primary2|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.primary2.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.primary3.label_tag }}</p>
+                                    <!-- <p>Pri 3</p> -->
+                                    {{ form.primary3|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.primary3.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.primary4.label_tag }}</p>
+                                    <!-- <p>Pri 4</p> -->
+                                    {{ form.primary4|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.primary4.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.primary5.label_tag }}</p>
+                                    <!-- <p>Pri 5</p> -->
+                                    {{ form.primary5|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.primary5.errors}}</span>
+                                </div>
+                            </div>
 
-    <h3 class="mb-5 mt-5 text-success">Secondary Section</h3>
-    <div class="form-row">
-      <div class="form-group col-md-1">
-        <p>{{ form.jss1.label_tag }}</p>
-        {{ form.jss1|addclass:'form-control' }}
-        <span class="text-danger">{{form.jss1.errors}}</span>
-      </div>
-      <div class="form-group col-md-1">
-        <p>{{ form.jss2.label_tag }}</p>
-        {{ form.jss2|addclass:'form-control' }}
-        <span class="text-danger">{{form.jss2.errors}}</span>
-      </div>
-      <div class="form-group col-md-1">
-        <p>{{ form.jss3.label_tag }}</p>
-        {{ form.jss3|addclass:'form-control' }}
-        <span class="text-danger">{{form.jss3.errors}}</span>
-      </div>
-      <div class="form-group col-md-1">
-        <p>{{ form.ss1.label_tag }}</p>
-        {{ form.ss1|addclass:'form-control' }}
-        <span class="text-danger">{{form.ss1.errors}}</span>
-      </div>
-      <div class="form-group col-md-1">
-        <p>{{ form.ss2.label_tag }}</p>
-        {{ form.ss2|addclass:'form-control' }}
-        <span class="text-danger">{{form.ss2.errors}}</span>
-      </div>
-      <div class="form-group col-md-1">
-        <p>{{ form.ss3.label_tag }}</p>
-        {{ form.ss3|addclass:'form-control' }}
-        <span class="text-danger">{{form.ss3.errors}}</span>
-      </div>
-    </div>
-    <br>
-    <div class="form-row">
-      <div class="form-group col-md-1">
-        <p>Current Class</p>
-        {{form.c_class}}
-        <span class="text-danger">{{form.c_class.errors}} </span>
-      </div>
-    </div>
+                            <h3 class="mb-5 mt-5 text-success">Secondary Section</h3>
+                            <div class="form-row">
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.jss1.label_tag }}</p>
+                                    {{ form.jss1|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.jss1.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.jss2.label_tag }}</p>
+                                    {{ form.jss2|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.jss2.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.jss3.label_tag }}</p>
+                                    {{ form.jss3|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.jss3.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.ss1.label_tag }}</p>
+                                    {{ form.ss1|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.ss1.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.ss2.label_tag }}</p>
+                                    {{ form.ss2|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.ss2.errors}}</span>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <p>{{ form.ss3.label_tag }}</p>
+                                    {{ form.ss3|addclass:'form-control' }}
+                                    <span class="text-danger">{{form.ss3.errors}}</span>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-row">
+                                <div class="form-group col-md-1">
+                                    <p>Current Class</p>
+                                    {{form.c_class}}
+                                    <span class="text-danger">{{form.c_class.errors}} </span>
+                                </div>
+                            </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-2">
-          <p>{{form.category.label_tag}}</p>
-          {{form.category|addclass:'form-control'}}
-          <span class="text-danger">{{form.category.errors}}</span>
-        </div>  
-    </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <p>{{form.category.label_tag}}</p>
+                                    {{form.category|addclass:'form-control'}}
+                                    <span class="text-danger">{{form.category.errors}}</span>
+                                </div>
+                            </div>
 
-    <button type="submit" class="btn btn-dark">Submit</button>
+                            <button type="submit" class="btn btn-dark">Submit</button>
 
-    </form>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 {% endblock content %}
