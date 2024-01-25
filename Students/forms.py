@@ -17,7 +17,7 @@ from .models import (
      Subject, 
     LessonNote,
 )
-
+from Teachers.models import Teacher
 # from django.db import models
 
 
@@ -41,6 +41,7 @@ class StudentForm(forms.ModelForm):
             "previous_school",
             "physical_disability",
             "allergy",
+            'category',
             "pp",
             "nus1",
             "nus2",
@@ -75,6 +76,45 @@ class StudentForm(forms.ModelForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields["lga"].queryset = self.instance.state.lga_set.order_by("name")
+
+class SimpleStudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = [
+            "firstname",
+            "surname",
+            "lastname",
+            "date_of_birth",
+            "sex",
+            "phone",
+            "roll_number",
+            "c_class",
+            "pp",
+            "nus1",
+            "nus2",
+            "nus3",
+            "primary1",
+            "primary2",
+            "primary3",
+            "primary4",
+            "primary5",
+            "jss1",
+            "jss2",
+            "jss3",
+            "ss1",
+            "ss2",
+            "ss3",
+            "category",
+        ]
+
+    # Include additional custom logic if needed
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Limit the choices for c_class to the classes of the active session
+        active_session = Session.objects.get(active=True)
+        self.fields['c_class'].queryset = Class.objects.filter(session=active_session)
 
 
 class FormMasterStudentForm(forms.ModelForm):
@@ -425,3 +465,10 @@ class LessonNoteForm(forms.ModelForm):
             'lesson_content': CKEditorUploadingWidget(),
             'lesson_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+class LessonNoteFilterForm(forms.Form):
+    teacher = forms.ModelChoiceField(queryset=Teacher.objects.all(), required=False)
+    # class_level = forms.ModelChoiceField(queryset=Class.objects.all(), required=False)
+    # session = forms.ModelChoiceField(queryset=Session.objects.all(), required=False)
+    # subject = forms.ModelChoiceField(queryset=Subject.objects.all(), required=Fals

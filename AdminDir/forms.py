@@ -1,6 +1,13 @@
 from django import forms
 
-from Students.models import LGA, Student
+from Students.models import (
+    LGA, 
+    Student, 
+    Session, 
+    Class, 
+    Subject,
+    Teacher
+)
 
 
 class AdminStudentForm(forms.ModelForm):
@@ -60,3 +67,10 @@ class AdminStudentForm(forms.ModelForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields["lga"].queryset = self.instance.state.lga_set.order_by("name")
+
+
+class AdminLessonNoteFilterForm(forms.Form):
+    teacher = forms.ModelChoiceField(queryset=Teacher.objects.all(), required=False)
+    class_level = forms.ModelChoiceField(queryset=Class.objects.all(), required=False)
+    session = forms.ModelChoiceField(queryset=Session.objects.all(), required=False)
+    subject = forms.ModelChoiceField(queryset=Subject.objects.all(), required=False)

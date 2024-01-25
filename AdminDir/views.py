@@ -3,7 +3,7 @@
 
 # from django.db.models.query_utils import subclasses
 # from typing import List
-
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls.base import reverse_lazy
@@ -11,10 +11,10 @@ from django.views.generic import CreateView, ListView, UpdateView
 from django_filters import FilterSet
 
 from Students.forms import SessionForm
-from Students.models import Class, FormMaster, Result, Session, Student
+from Students.models import Class, FormMaster, Result, Session, Student, LessonNote
 from Teachers.models import Teacher
 
-from .forms import AdminStudentForm
+from .forms import AdminStudentForm, AdminLessonNoteFilterForm
 from .models import QA
 
 # from Students.models import Rating
@@ -162,3 +162,28 @@ class QAListView(ListView):
 #     template_name = "result_rating.html"
 #     success_url = "session_list"
 #     success_message = "Student Rating updated!"
+
+
+
+
+@login_required
+def admin_lesson_notes_list_view(request):
+    lesson_notes = LessonNote.objects.all()
+    filter_form = AdminLessonNoteFilterForm(request.GET)
+
+    if filter_form.is_valid():
+        teacher = filter_form.cleaned_data.get('teacher')
+        class_level = filter_form.cleaned_data.get('class_level')
+        session = filter_form.cleaned_data.get('session')
+        subject = filter_form.cleaned_data.get('subject')
+
+        if teacher:
+            lesson_notes = lesson_notes.filter(teacher=teacher)
+        if class_level:
+            lesson_notes = lesson_notes.filter(class_level=class_level)
+        if session:
+            lesson_notes = lesson_notes.filter(session=session)
+        if subject:
+            lesson_notes = lesson_notes.filter(subject=subject)
+    
+    return render(request, 'lesson_notes_list.html', {'lesson_notes': lesson_notes, 'filter_form': filter_form})

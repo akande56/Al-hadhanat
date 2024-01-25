@@ -79,7 +79,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-     'ckeditor',
+    'ckeditor',
 ]
 
 LOCAL_APPS = [

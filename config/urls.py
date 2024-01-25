@@ -23,7 +23,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("student/", include("Students.urls")),
     path("teacher/", include("Teachers.urls")),
-    path("admin/", include("AdminDir.urls")),
+    path("admin2/", include("AdminDir.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

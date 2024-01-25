@@ -28,7 +28,10 @@ from .forms import (
     SubjectTerm2UpdateBSModalForm,
     SubjectTerm3UpdateBSModalForm,
     LessonNoteForm,
+    LessonNoteFilterForm,
+    SimpleStudentForm,
 )
+
 from .models import (
     LGA, 
     Class, 
@@ -39,6 +42,8 @@ from .models import (
     Student, 
     Subject,
     LessonNote,
+    Tribe,
+    State,
 )
 # from io import BytesIO
 # from typing import KeysView
@@ -62,6 +67,33 @@ def StudentCreateView(request):
     else:
         form = StudentForm()
     return render(request, "add_student.html", {"form": form})
+
+
+def simple_add_student(request):
+    if request.method == 'POST':
+        form = SimpleStudentForm(request.POST)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.guardian_name = 'nill'
+            student.tribe = Tribe.objects.first()
+            student.state = State.objects.first()
+            student.lga =  LGA.objects.first()
+            student.nationality = 'Nigeria'
+            student.address = 'nill'
+            student.email = 'nill@gmail.com'
+            student.previous_school = 'nill'
+            student.physical_disability = 'none'
+            student.allergy = 'none'
+            student.registration_number = form.cleaned_data.get('roll_number')
+            
+            # Set values for fields not in the form
+            student.admitted = True
+            
+            student.save()
+            return redirect('home') 
+    form = SimpleStudentForm()
+
+    return render(request, 'simple_add_student.html', {'form': form})
 
 
 class StudentDetailView(DetailView):
@@ -1228,7 +1260,24 @@ def lesson_notes_list_view(request, class_id):
     class_instance = get_object_or_404(Class, pk=class_id)
     lesson_notes = LessonNote.objects.filter(class_level=class_instance)
     form = LessonNoteForm()
-    return render(request, 'lesson_notes_list.html', {'class_instance': class_instance, 'lesson_notes': lesson_notes,'form':form})
+    filter_form = LessonNoteFilterForm(request.GET)
+
+    if filter_form.is_valid():
+        teacher = filter_form.cleaned_data.get('teacher')
+        class_level = filter_form.cleaned_data.get('class_level')
+        session = filter_form.cleaned_data.get('session')
+        subject = filter_form.cleaned_data.get('subject')
+
+        if teacher:
+            lesson_notes = lesson_notes.filter(teacher=teacher)
+        # if class_level:
+        #     lesson_notes = lesson_notes.filter(class_level=class_level)
+        # if session:
+        #     lesson_notes = lesson_notes.filter(session=session)
+        # if subject:
+        #     lesson_notes = lesson_notes.filter(subject=subject)
+    
+    return render(request, 'lesson_notes_list.html', {'class_instance': class_instance, 'lesson_notes': lesson_notes,'form':form, 'filter_form': filter_form})
 
 
 @login_required

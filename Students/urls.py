@@ -41,11 +41,13 @@ from .views import (  # ViewTerm1,; pWA; offline,
     lesson_notes_list_view,
     edit_lesson_note_view,
     LessonNoteDeleteView,
+    simple_add_student,
 )
 
 urlpatterns = [
     # path("offlined", offline, name="offlined"),
     path("add_student", StudentCreateView, name="admit_student"),
+    path('simplify_add/student/', simple_add_student, name='simple_add_student'),
     path("ajax/load-lga/", load_lga, name="ajax_load_lga"),
     path("dashboard", dashboard, name="dashboard"),
     # path("printStudentForm/<int:pk>", PrintStudentForm.as_view(), name="studentform"),

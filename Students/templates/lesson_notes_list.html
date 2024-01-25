@@ -3,6 +3,10 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="row text-center">
+      <form method="get">
+        {{ filter_form|crispy }}
+        <button type="submit" class="btn-success mb-3 shadow">Apply Filters</button>
+      </form>
       <table class="table table-bordered">
         <thead>
           <tr>

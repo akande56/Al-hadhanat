@@ -15,10 +15,11 @@ from .views import (
     AdminTeacherListView,
     QACreateView,
     QAListView,
+    admin_lesson_notes_list_view,
 )
 
 urlpatterns = [
-    path("session/add_session", AdminSessionCreateView.as_view(), name="add_session"),
+    path("session/add_session/", AdminSessionCreateView.as_view(), name="add_session"),
     path("session/list", AdminSessionListView.as_view(), name="session_list"),
     path(
         "session/list/session_class/<int:session_id>",
@@ -44,4 +45,5 @@ urlpatterns = [
     ),
     path("make_enquiry", QACreateView.as_view(), name="make_enquiry"),
     path("enquiries", QAListView.as_view(), name="enquiries"),
+    path("lesson_notes/", admin_lesson_notes_list_view, name='admin_lesson_notees_list'),
 ]
