@@ -10,26 +10,30 @@
       <div class="col-md-6">
         {{ form.subject|as_crispy_field }}
         <br>
+        <br>
         {{ form.lesson_date|as_crispy_field }}
+        <br>
         <br>
         {{ form.topic|as_crispy_field }}
         <br>
+        <br>
         {{ form.term|as_crispy_field }}
         <br>
-        {{ form.previous_knowledge|as_crispy_field }}
-        
-        
-        
-        
+        <br>
+        <br>
+        {{ form.instructional_materials|as_crispy_field }}
+        <br>
+        <br>
         {{ form.teaching_methodology|as_crispy_field }}
       </div>
       <div class="col-md-6">
         {{ form.introduction|as_crispy_field }}
         {{ form.objectives|as_crispy_field }}
-        {{ form.instructional_materials|as_crispy_field }}
+        
+        {{ form.previous_knowledge|as_crispy_field }}
       </div>
     </div>
-    <div class="row">
+    <div class="offset-1">
         <div class="col-md-12">
             {{ form.lesson_content|as_crispy_field }}
             {{ form.assessment|as_crispy_field }}
@@ -37,7 +41,7 @@
             {{ form.conclusion|as_crispy_field }}
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Save Lesson</button>
+    <button type="submit" class="btn btn-primary offset-5">Save Lesson</button>
   </form>
   {{ form.media }}
 {% endblock %}
