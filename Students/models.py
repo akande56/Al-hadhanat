@@ -105,7 +105,7 @@ class Student(models.Model):
     surname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50, blank=True)
     guardian_name = models.CharField(max_length=50)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField( help_text='year-month-date: e.g 2023-1-30',)
     sex = models.CharField(max_length=50, choices=sex)
     tribe = models.ForeignKey(Tribe, on_delete=models.SET_NULL, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)

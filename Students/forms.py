@@ -78,6 +78,9 @@ class StudentForm(forms.ModelForm):
             self.fields["lga"].queryset = self.instance.state.lga_set.order_by("name")
 
 class SimpleStudentForm(forms.ModelForm):
+    date_of_birth = forms.DateField(
+        widget=forms.widgets.NumberInput(attrs={"type": "date", "class": "form-control"}),
+    )
     class Meta:
         model = Student
         fields = [

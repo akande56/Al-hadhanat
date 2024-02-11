@@ -17,7 +17,6 @@ class TeacherSignUpCreateView(SuccessMessageMixin, CreateView):
     template_name = "teacher_signup.html"
     success_message = gettext_lazy("Teacher Signed Up Successfully")
     success_url = _("teachers")
-
-
+    
 def gallery(request):
     return render(request, "gallery.html")
