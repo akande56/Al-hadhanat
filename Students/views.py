@@ -90,6 +90,7 @@ def simple_add_student(request):
             student.admitted = True
             
             student.save()
+            messages.add_message(request, messages.INFO, gettext_lazy("Student Record addedd successfully.."))
             return redirect('home') 
     form = SimpleStudentForm()
 
@@ -1245,6 +1246,9 @@ def lesson_note_create_view(request, class_id):
             lesson_note.teacher = Teacher.objects.get(user = request.user)
             lesson_note.session = class_instance.session
             lesson_note.save()
+            messages.add_message(
+        request, messages.INFO, gettext_lazy("New lesson note added")
+    )
             return redirect('lesson_notes_list', class_id=class_id)
         else:
             print(form.errors)  
@@ -1288,6 +1292,9 @@ def edit_lesson_note_view(request, lesson_note_id):
         form = LessonNoteForm(request.POST, instance=lesson_note)
         if form.is_valid():
             form.save()
+            messages.add_message(
+        request, messages.INFO, gettext_lazy("Lesson note updated..!")
+    )
             return redirect('lesson_notes_list', class_id=lesson_note.class_level.pk)
     else:
         form = LessonNoteForm(instance=lesson_note)
@@ -1295,9 +1302,10 @@ def edit_lesson_note_view(request, lesson_note_id):
     return render(request, 'edit_lesson_note.html', {'form': form, 'lesson_note': lesson_note})
 
 
-class LessonNoteDeleteView(DeleteView):
+class LessonNoteDeleteView(SuccessMessageMixin,DeleteView):
     model = LessonNote
     template_name = 'delete_lesson_note.html'
+    success_message = gettext_lazy("Lesson note deleted..")
     def get_success_url(self):
         class_id = self.object.class_level.pk  # Assuming your LessonNote model has a class_id field
         return reverse_lazy('lesson_notes_list', kwargs={'class_id': class_id})
